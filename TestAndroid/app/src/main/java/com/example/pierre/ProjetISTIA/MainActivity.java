@@ -3,7 +3,6 @@ package com.example.pierre.ProjetISTIA;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Menu;
@@ -11,7 +10,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 
-    private Jeu jeu;
+    private Game game;
     private int sWidth, sHeight;
 
     @Override
@@ -26,9 +25,9 @@ public class MainActivity extends Activity {
         sWidth = size.x;
         sHeight = size.y;
 
-        jeu = new Jeu(this, sWidth, sHeight);
-        jeu.setBackgroundColor(Color.TRANSPARENT);
-        setContentView(jeu);
+        game = new Game(this, sWidth, sHeight);
+        game.setBackgroundColor(Color.TRANSPARENT);
+        setContentView(game);
     }
 
     @Override

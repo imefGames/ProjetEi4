@@ -2,62 +2,70 @@ package com.example.pierre.ProjetISTIA;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
-public class Jeu extends SurfaceView implements SurfaceHolder.Callback{
+public class Game extends SurfaceView implements SurfaceHolder.Callback{
 
     private SurfaceHolder mHolder = null;
     private DrawingThread mThread = null;
-    private Paint p;
-    private int sWidth, sHeight, xTouch, yTouch;
-    private boolean t[][];
+    private int sWidth, sHeight;
+    private InputManager inputManager;
+    private RenderManager renderManager;
+    private GameManager gameManager;
 
-    public Jeu(Context context, int sWidth, int sHeight){
+
+    public Game(Context context, int sWidth, int sHeight){
         super(context);
         this.sWidth = sWidth;
         this.sHeight = sHeight;
-        init();
+        init(context);
     }
 
-    public Jeu(Context context, AttributeSet attrs){
+    public Game(Context context, AttributeSet attrs){
         super(context, attrs);
         this.sWidth = 0;
         this.sHeight = 0;
-        init();
+        init(context);
     }
 
-    public Jeu(Context context, AttributeSet attrs, int defStyle){
+    public Game(Context context, AttributeSet attrs, int defStyle){
         super(context, attrs, defStyle);
         this.sWidth = 0;
         this.sHeight = 0;
-        init();
+        init(context);
     }
 
-    public void init(){
-        p = new Paint();
-        p.setColor(Color.RED);
+    public void init(Context context){
+        this.inputManager = new InputManager();
+        this.renderManager = new RenderManager(getResources());
+        this.gameManager = new GameManager(this.inputManager, this.renderManager, this.sWidth, this.sHeight);
         mHolder = getHolder();
         mHolder.addCallback(this);
-        xTouch = 0;
-        yTouch = 0;
-        this.t = new boolean[5][5];
+    }
+
+    public int getScreenWidth(){
+        return this.sWidth;
+    }
+
+    public int getScreenHeight(){
+        return this.sHeight;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e){
         switch(e.getAction()){
             case MotionEvent.ACTION_DOWN:
-            //case MotionEvent.ACTION_MOVE:
-            //case MotionEvent.ACTION_UP:
-                xTouch = (int)e.getX();
-                yTouch = (int)e.getY();
-                t[xTouch*5/sWidth][yTouch*5/sHeight] ^= true;
+                this.inputManager.startDown(e.getX(), e.getY());
+                break;
+            case MotionEvent.ACTION_MOVE:
+                this.inputManager.startMove(e.getX(), e.getY());
+                break;
+            case MotionEvent.ACTION_UP:
+                this.inputManager.startUp(e.getX(), e.getY());
                 break;
         }
         return true;
@@ -65,26 +73,15 @@ public class Jeu extends SurfaceView implements SurfaceHolder.Callback{
 
     @Override
     public void draw(Canvas pCanvas){
-        pCanvas.drawColor(Color.WHITE);
-
-        int w = sWidth/5;
-        int h = sHeight/5;
-        for(int j=0; j<5; j++){
-            for(int i=0; i<5; i++){
-                if(this.t[i][j])
-                    pCanvas.drawRect(i*w+1, j*h+1, (i+1)*w-1, (j+1)*h-1, p);
-            }
-        }
-
-        int x, y, ws2;
-        x = ((xTouch*5/sWidth)*2+1)*w/2;
-        y = ((yTouch*5/sHeight)*2+1)*h/2;
-        ws2 = w/2;
-        Drawable d = getResources().getDrawable(R.drawable.test);
-        d.setBounds(x-ws2, y-ws2, x+ws2, y+ws2);
-        d.draw(pCanvas);
-
+        this.renderManager.setTarget(pCanvas);
+        this.gameManager.draw();
         postInvalidate();
+    }
+
+    public void tick(Canvas pCanvas){
+        this.draw(pCanvas); //draw all items
+        this.gameManager.update();//update all items
+        this.inputManager.resetEvents(); //reset events
     }
 
     @Override
@@ -112,6 +109,7 @@ public class Jeu extends SurfaceView implements SurfaceHolder.Callback{
             }catch(InterruptedException e){}
         }
         mThread = null;
+        this.gameManager.destroy();
     }
 
     private class DrawingThread extends Thread{
@@ -124,17 +122,16 @@ public class Jeu extends SurfaceView implements SurfaceHolder.Callback{
                 try{
                     canvas = mHolder.lockCanvas(null);
                     synchronized(mHolder){
-                        draw(canvas);
+                        tick(canvas);
                     }
                 }catch(Exception e){
-
                 }finally{
                     if(canvas != null){
                         mHolder.unlockCanvasAndPost(canvas);
                     }
                 }
                 try{
-                    Thread.sleep(33);
+                    Thread.sleep(50);
                 }catch(InterruptedException e){}
             }
         }
