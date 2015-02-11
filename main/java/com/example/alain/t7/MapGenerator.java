@@ -49,6 +49,8 @@ public class MapGenerator {
         int i =0;
         int j =0;
         int temp = 0;
+        int countX = 0;
+        int countY = 0;
 
 
         for(i=0; i < 16; i++)
@@ -60,35 +62,30 @@ public class MapGenerator {
         }
 
         //Murs près de la bordure gauche
-        horizontalWalls[0][getRandom(2,14)] = 1;
+        horizontalWalls[0][getRandom(2,7)] = 1;
         do{
-            temp = getRandom(2,15);
-            System.out.println(temp);
+            temp = getRandom(8,15);
         }while(horizontalWalls[0][temp-1] == 1 || horizontalWalls[0][temp] == 1 || horizontalWalls[0][temp+1] == 1);
         horizontalWalls[0][temp] = 1;
 
         //Murs près de la bordure droite
-        horizontalWalls[15][getRandom(2,14)] = 1;
+        horizontalWalls[15][getRandom(2,7)] = 1;
         do{
-            temp = getRandom(2,15);
-            System.out.println(temp);
+            temp = getRandom(8,15);
         }while(horizontalWalls[15][temp-1] == 1 || horizontalWalls[15][temp] == 1 || horizontalWalls[15][temp+1] == 1);
         horizontalWalls[15][temp] = 1;
 
-
         //Murs près de la bordure haut
-        verticalWalls[getRandom(2,14)][0] = 1;
+        verticalWalls[getRandom(2,7)][0] = 1;
         do{
-            temp = getRandom(2,15);
-            System.out.println(temp);
+            temp = getRandom(8,15);
         }while(verticalWalls[temp-1][0] == 1 || verticalWalls[temp][0] == 1 || verticalWalls[temp+1][0] == 1);
         verticalWalls[temp][0] = 1;
 
         //Murs près de la bordure bas
-        verticalWalls[getRandom(2,14)][15] = 1;
+        verticalWalls[getRandom(2,7)][15] = 1;
         do{
-            temp = getRandom(2,15);
-            System.out.println(temp);
+            temp = getRandom(8,15);
         }while(verticalWalls[temp-1][15] == 1 || verticalWalls[temp][15] == 1 || verticalWalls[temp+1][15] == 1);
         verticalWalls[temp][15] = 1;
 
@@ -104,42 +101,103 @@ public class MapGenerator {
 
             do {
                 flag = false;
-                tempX = getRandom(1, 15);
-                tempY = getRandom(1, 15);
+                if(k < 4) {
+                    tempX = getRandom(1, 7);
+                    tempY = getRandom(1, 7);
+                }
+                else if(k < 8)
+                {
+                    tempX = getRandom(8, 15);
+                    tempY = getRandom(1, 7);
+                }
+                else if(k < 12)
+                {
+                    tempX = getRandom(1, 7);
+                    tempY = getRandom(8, 15);
+                }
+                else if(k < 16)
+                {
+                    tempX = getRandom(8, 15);
+                    tempY = getRandom(8, 15);
+                }
+                else
+                {
+                    tempX = getRandom(1, 15);
+                    tempY = getRandom(1, 15);
+                }
+
+
 
                 if(horizontalWalls[tempX][tempY] == 1 || horizontalWalls[tempX-1][tempY] == 1 || horizontalWalls[tempX+1][tempY] == 1)
                     flag = true;
                 if(horizontalWalls[tempX][tempY-1] == 1 || horizontalWalls[tempX][tempY+1] == 1)
                     flag = true;
 
-                if(verticalWalls[tempX][tempY] == 1 || verticalWalls[tempX+1][tempY] == 1)
+                if(verticalWalls[tempX][tempY] == 1 || verticalWalls[tempX+1][tempY] == 1) {
                     flag = true;
-                if(verticalWalls[tempX][tempY-1] == 1 || verticalWalls[tempX+1][tempY-1] == 1)
+                }
+                if(verticalWalls[tempX][tempY-1] == 1 || verticalWalls[tempX+1][tempY-1] == 1){
                     flag = true;
+                }
+
+                if(!flag) {
+                    //On compte le nombre de murs dans la même ligne/colonne
+                    countX = countY = 0;
+                    for (i = 1; i < 15; i++) {
+                        if (horizontalWalls[i][tempY] == 1)
+                            countX++;
+                        if (horizontalWalls[tempX][i] == 1)
+                            countY++;
+                    }
+                    if(tempY == 7 || tempY == 9)
+                    {
+                        countX -=2;
+                    }
+                    if (countX >= 2 || countY >= 2) //Si il y a trop de murs dans la même ligne/colonne, on abandonne
+                        flag = true;
+                }
 
                 if(!flag)
                 {
                     tempXv = tempX+getRandom(0,1);
                     tempYv = tempY-getRandom(0,1);
 
+
+
                     if(verticalWalls[tempXv][tempYv] == 1 || verticalWalls[tempXv-1][tempYv] == 1 || verticalWalls[tempXv+1][tempYv] == 1)
                         flag = true;
                     if(verticalWalls[tempXv][tempYv-1] == 1 || verticalWalls[tempXv][tempYv+1] == 1)
                         flag = true;
 
-                    if(horizontalWalls[tempXv][tempYv] == 1 || horizontalWalls[tempXv+1][tempYv] == 1)
-                        flag = true;
-                    if(horizontalWalls[tempXv][tempYv-1] == 1 || horizontalWalls[tempXv+1][tempYv-1] == 1)
+                    if(horizontalWalls[tempXv][tempYv] == 1 || horizontalWalls[tempXv-1][tempYv] == 1)
                         flag = true;
 
-                    if(horizontalWalls[tempXv][tempYv] == 1 && horizontalWalls[tempXv-1][tempYv+1] == 1)
+                    if(horizontalWalls[tempXv][tempYv-1] == 1 || horizontalWalls[tempXv-1][tempYv-1] == 1)
                         flag = true;
-                    if(horizontalWalls[tempXv][tempYv] == 1 && horizontalWalls[tempXv+1][tempYv-1] == 1)
+
+                    if(verticalWalls[tempXv-1][tempYv-1] == 1 || verticalWalls[tempXv-1][tempYv+1] == 1)
                         flag = true;
-                    if(horizontalWalls[tempXv][tempYv+1] == 1 && horizontalWalls[tempXv-1][tempYv] == 1)
+
+                    if(verticalWalls[tempXv+1][tempYv+1] == 1 || verticalWalls[tempXv+1][tempYv-1] == 1)
                         flag = true;
-                    if(horizontalWalls[tempXv-1][tempYv] == 1 && horizontalWalls[tempXv][tempYv+1] == 1)
-                        flag = true;
+
+                    if(!flag) {
+                        //On compte le nombre de murs dans la même ligne/colonne
+                        countX = countY = 0;
+                        for (i = 1; i < 15; i++) {
+                            if (verticalWalls[i][tempYv] == 1)
+                                countX++;
+                            if (verticalWalls[tempXv][i] == 1)
+                                countY++;
+                        }
+                        if(tempXv == 7 || tempXv == 9)
+                        {
+                            countY -=2;
+                        }
+                        if (countX >= 2 || countY >= 2) //Si il y a trop de murs dans la même ligne/colonne, on abandonne
+                            flag = true;
+                    }
+
                 }
 
             } while (flag);

@@ -41,7 +41,9 @@ public class T7 extends ActionBarActivity {
 
         MapGenerator generatedMap = new MapGenerator();
 
-        //data = generatedMap.get16DimensionalMap();
+        //long millis = System.currentTimeMillis();
+        data = generatedMap.get16DimensionalMap();
+        //System.out.println("Time in milliseconds : "+(System.currentTimeMillis() - millis));
 
 
 

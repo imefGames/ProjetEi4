@@ -29,8 +29,8 @@ public class MapObjects {
 
 
         for(final String objectType: objectTypes) {
-            System.out.println("objectType");
-            System.out.println(objectType);
+//            System.out.println("objectType");
+//            System.out.println(objectType);
 
 
 
@@ -39,8 +39,8 @@ public class MapObjects {
             while (m.find()) {
                 allMatches.add(m.group());
             }
-            System.out.println("Longueur de la liste");
-            System.out.println(allMatches.size());
+//            System.out.println("Longueur de la liste");
+//            System.out.println(allMatches.size());
 
 
             for(final String line: allMatches) {

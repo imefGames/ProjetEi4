@@ -223,9 +223,9 @@ public class ExampleSurfaceView extends SurfaceView implements SurfaceHolder.Cal
                         mSurfaceHolder.unlockCanvasAndPost(canvas);
                 }
 
-                // Pour dessiner à 50 fps
+                // Pour dessiner à 20 fps
                 try {
-                    Thread.sleep(20);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {}
             }
         }
