@@ -16,6 +16,10 @@ public class RenderManager {
     private Resources resources;
     private SparseArray<Drawable> resourceMap;
 
+    /*
+     * Constructeur de la classe RenderManager.
+     * @param Référence des resources du projet.
+     */
     public RenderManager(Resources resources){
         this.target = null;
         this.brush = new Paint();
@@ -24,26 +28,58 @@ public class RenderManager {
         this.resourceMap = new SparseArray<Drawable>();
     }
 
+    /*
+     * Change le canvas cible sur laquelle le RenderManager va déssiner.
+     * @param Référence du canvas à cibler.
+     */
     public void setTarget(Canvas target){
         this.target = target;
     }
 
+    /*
+     * Change la couleur par défaut du RenderManager.
+     * @param Nouvelle couleur à adopter.
+     */
     public void setColor(int color){
         this.brush.setColor(color);
     }
 
+    /*
+     * Paint la totalité du canvas cible à la couleur par défaut.
+     */
     public void paintScreen(){
         this.target.drawColor(this.brush.getColor());
     }
 
+    /*
+     * Déssine un cercle sur le canvas cible aux coordonnées (x, y), de rayon radius et à la couleur par défaut.
+     * @param Position x du cercle
+     * @param Position y du cercle
+     * @param Rayon du cercle
+     */
     public void drawCircle(float x, float y, int radius){
         this.target.drawCircle(x, y, radius, this.brush);
     }
 
+    /*
+     * Déssine un rectangle à la couleur par défaut sur le canvas cible entre les points (x1, y1) et (x2, y2).
+     * @param Position x du premier point du rectangle
+     * @param Position y du premier point du rectangle
+     * @param Position x du second point du rectangle
+     * @param Position y du second point du rectangle
+     */
     public void drawRect(float x1, float y1, float x2, float y2){
         this.target.drawRect(x1, y1, x2, y2, this.brush);
     }
 
+    /*
+     * Déssine une image sur le canvas cible entre les points (x1, y1) et (x2, y2).
+     * @param Position x du premier point du rectangle contenant l'image
+     * @param Position y du premier point du rectangle contenant l'image
+     * @param Position x du second point du rectangle contenant l'image
+     * @param Position y du second point du rectangle contenant l'image
+     * @param Index de l'image à déssiner
+     */
     public void drawImage(int x1, int y1, int x2, int y2, int image){
         Drawable d = this.resourceMap.get(image);
         if (d == null) {
@@ -53,6 +89,10 @@ public class RenderManager {
         d.draw(this.target);
     }
 
+    /*
+     * Charge en mémoire une image donnée.
+     * @param index de l'image à charger en mémoire
+     */
     public void loadImage(int image){
         this.resourceMap.append(image, this.resources.getDrawable(image));
     }

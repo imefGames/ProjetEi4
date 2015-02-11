@@ -9,8 +9,7 @@ public class GameButton implements IGameObject {
 
     private int x, y, w, h;
     private int imageUp, imageDown;
-    private boolean btDown;
-    private int targetScreen;
+    protected boolean btDown;
 
     public GameButton(int x, int y, int w, int h, int imageUp, int imageDown){
         this.create();
@@ -22,14 +21,9 @@ public class GameButton implements IGameObject {
         this.imageUp = imageUp;
     }
 
-    public void setTargetScreen(int target){
-        this.targetScreen = target;
-    }
-
     @Override
     public void create() {
         this.btDown = false;
-
     }
 
     @Override
@@ -63,7 +57,6 @@ public class GameButton implements IGameObject {
                 if(this.btDown){
                     this.btDown = false;
                     inputManager.resetEvents();
-                    gameManager.setGameScreen(this.targetScreen);
                 }
             }
         }

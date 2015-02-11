@@ -3,11 +3,12 @@ package com.example.pierre.ProjetISTIA;
 import android.graphics.Color;
 
 /**
- * Created by Pierre on 21/01/2015.
+ * Created by Pierre on 04/02/2015.
  */
-public class MainMenuGameScreen extends GameScreen implements IGameObject {
+public class SettingsGameScreen extends GameScreen implements IGameObject {
 
-    public MainMenuGameScreen(GameManager gameManager){
+
+    public SettingsGameScreen(GameManager gameManager){
         super(gameManager);
         this.create();
     }
@@ -16,8 +17,8 @@ public class MainMenuGameScreen extends GameScreen implements IGameObject {
     public void create() {
         int ws2 = this.gameManager.getScreenWidth()/2;
         int hs2 = this.gameManager.getScreenHeight()/2;
-        this.instances.add(new GameButton(ws2-128, hs2-128, 256, 256, R.drawable.bt_start_up, R.drawable.bt_start_down));
-        ((GameButton)this.instances.get(0)).setTargetScreen(1);
+        this.instances.add(new GameButtonGoto(ws2-128, hs2-128, 256, 256, R.drawable.bt_back_up, R.drawable.bt_back_down));
+        ((GameButtonGoto)this.instances.get(0)).setTargetScreen(0);
         super.create();
         this.load(this.gameManager.getRenderManager());
     }
@@ -29,7 +30,7 @@ public class MainMenuGameScreen extends GameScreen implements IGameObject {
 
     @Override
     public void draw(RenderManager renderManager) {
-        renderManager.setColor(Color.WHITE);
+        renderManager.setColor(Color.YELLOW);
         renderManager.paintScreen();
         super.draw(renderManager);
     }
