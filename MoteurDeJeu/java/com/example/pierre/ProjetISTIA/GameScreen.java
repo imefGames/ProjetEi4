@@ -15,8 +15,7 @@ public abstract class GameScreen implements IGameObject {
     }
 
     @Override
-    public void create() {
-    }
+    public abstract void create();
 
     @Override
     public void load(RenderManager renderManager) {

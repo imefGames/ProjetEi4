@@ -63,7 +63,7 @@ public class GameButton implements IGameObject {
     }
 
     @Override
-    public void destroy() {
+    public void destroy(){
 
     }
 }

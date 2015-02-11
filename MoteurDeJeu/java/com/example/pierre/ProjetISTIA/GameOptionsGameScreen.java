@@ -3,12 +3,12 @@ package com.example.pierre.ProjetISTIA;
 import android.graphics.Color;
 
 /**
- * Created by Pierre on 04/02/2015.
+ * Created by Pierre on 21/01/2015.
  */
-public class SettingsGameScreen extends GameScreen implements IGameObject {
+public class GameOptionsGameScreen extends GameScreen implements IGameObject {
 
 
-    public SettingsGameScreen(GameManager gameManager){
+    public GameOptionsGameScreen(GameManager gameManager){
         super(gameManager);
         this.create();
     }
@@ -29,7 +29,7 @@ public class SettingsGameScreen extends GameScreen implements IGameObject {
 
     @Override
     public void draw(RenderManager renderManager) {
-        renderManager.setColor(Color.YELLOW);
+        renderManager.setColor(Color.GREEN);
         renderManager.paintScreen();
         super.draw(renderManager);
     }

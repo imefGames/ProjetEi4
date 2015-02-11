@@ -19,7 +19,6 @@ public class CreditsGameScreen extends GameScreen implements IGameObject {
         int hs2 = this.gameManager.getScreenHeight()/2;
         this.instances.add(new GameButtonGoto(ws2-128, hs2-128, 256, 256, R.drawable.bt_back_up, R.drawable.bt_back_down));
         ((GameButtonGoto)this.instances.get(0)).setTargetScreen(0);
-        super.create();
         this.load(this.gameManager.getRenderManager());
     }
 

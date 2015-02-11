@@ -1,9 +1,11 @@
 package com.example.pierre.ProjetISTIA;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.SparseArray;
 
@@ -95,5 +97,24 @@ public class RenderManager {
      */
     public void loadImage(int image){
         this.resourceMap.append(image, this.resources.getDrawable(image));
+    }
+
+    /*
+     * Affiche un bitmap.
+     * @param référence du Bitmap à afficher
+     * @param position x du point en haut à gauche du bitmap
+     * @param position y du point en haut à gauche du bitmap
+     */
+    public void drawBitmap(Bitmap bmp, float x, float y){
+        this.target.drawBitmap(bmp, x, y, null);
+    }
+
+    /*
+     * Charge en mémoire un bitmap.
+     * @param référence du Bitmap à afficher
+     * @param index à utiliser pour réutiliser le Bitmap
+     */
+    public void loadBitmap(Bitmap bmp, int id){
+        this.resourceMap.append(id, new BitmapDrawable(this.resources, bmp));
     }
 }
