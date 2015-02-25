@@ -13,7 +13,7 @@ import android.util.SparseArray;
  * Created by Pierre on 21/01/2015.
  */
 public class RenderManager {
-    private Canvas target;
+    private Canvas target, mainTarget;
     private Paint brush;
     private Resources resources;
     private SparseArray<Drawable> resourceMap;
@@ -31,11 +31,28 @@ public class RenderManager {
     }
 
     /*
+     * Change le canvas cible principale sur laquelle le RenderManager va déssiner.
+     * @param Référence du canvas à cibler.
+     */
+    public void setMainTarget(Canvas target){
+        this.mainTarget = target;
+        this.target = target;
+    }
+
+    /*
      * Change le canvas cible sur laquelle le RenderManager va déssiner.
      * @param Référence du canvas à cibler.
      */
     public void setTarget(Canvas target){
         this.target = target;
+    }
+
+    /*
+     * Le canvas cible sur laquelle le RenderManager va déssiner est de nouveau la cible principale.
+     * @param Référence du canvas à cibler.
+     */
+    public void resetTarget(){
+        this.target = this.mainTarget;
     }
 
     /*
