@@ -36,7 +36,8 @@ public class ExampleSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 
     Bitmap saveBitmap = null;
 
-    Canvas canvasBackup= null;
+    Canvas canvasGrid = null;
+    Bitmap bitmapGrid = null;
 
     Drawable d = null;
     Drawable dMH = null;
@@ -76,6 +77,15 @@ public class ExampleSurfaceView extends SurfaceView implements SurfaceHolder.Cal
         drawables.put("cj", getResources().getDrawable(R.drawable.cj));
         drawables.put("cb", getResources().getDrawable(R.drawable.cb));
         drawables.put("cm", getResources().getDrawable(R.drawable.cm));
+
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        Bitmap bitmapGrid = Bitmap.createBitmap(1080, 1920, conf);
+
+        canvasGrid = new Canvas(bitmapGrid);
+
+
+
+
     }
 
     @Override
@@ -83,79 +93,48 @@ public class ExampleSurfaceView extends SurfaceView implements SurfaceHolder.Cal
         // Dessinez ici !
         super.onDraw(pCanvas);
 
-        if (pCanvas != null) {
+        if (bitmapGrid == null) {
+            System.out.println("bitmapGrid est null");
+        }
+
+        if (pCanvas != null && bitmapGrid != null) {
 //            if (saveBitmap == null) {
 
 //                Drawable d = getResources().getDrawable(R.drawable.grid);
-            d.setBounds(2, 200, 1076, 1276);
-            d.draw(pCanvas);
+//            d.setBounds(2, 200, 1076, 1276);
+//            d.draw(pCanvas);
+
+                pCanvas.drawBitmap(bitmapGrid, 0, 0, null);
 
                 if(map != null)
                 {
                     for(Object p: map){
                         Point myp = (Point)p;
-//                        System.out.println("View Point :");
-//                        System.out.println(myp.getX());
-//                        System.out.println(myp.getY());
-//                        System.out.println(myp.getType());
-                        if(myp.getType() == "mh") {
-                            dMH.setBounds(myp.getX()*67+2, myp.getY()*67+200, (myp.getX()+1)*67+3, myp.getY()*67+203);
-                            dMH.draw(pCanvas);
-                        }
-                        if(myp.getType() == "mv") {
-                            dMV.setBounds(myp.getX()*67, myp.getY()*67+200, myp.getX()*67+3, (myp.getY()+1)*67+203);
-                            dMV.draw(pCanvas);
-                        }
 
-//                        System.out.println("Type ::");
-//                        System.out.println(myp.getType());
+//                        Drawable myBackground = new BitmapDrawable(getResources(), bitmapGrid);
+//                        myBackground.draw(pCanvas);
+
+
+
+//                        if(myp.getType() == "mh") {
+//                            dMH.setBounds(myp.getX()*67+2, myp.getY()*67+200, (myp.getX()+1)*67+3, myp.getY()*67+203);
+//                            dMH.draw(pCanvas);
+//                        }
+//                        if(myp.getType() == "mv") {
+//                            dMV.setBounds(myp.getX()*67, myp.getY()*67+200, myp.getX()*67+3, (myp.getY()+1)*67+203);
+//                            dMV.draw(pCanvas);
+//                        }
+
+
 
                         if(drawables.get(myp.getType()) != null) {
 
-//                            System.out.println("Cible ou Robot");
                             drawables.get(myp.getType()).setBounds(myp.getX()*67+2, myp.getY()*67+202, (myp.getX()+1)*67+2, (myp.getY()+1)*67+202);
                             drawables.get(myp.getType()).draw(pCanvas);
                         }
 
                     }
                 }
-
-
-
-//                d2.setBounds(100, 300, 576, 576);
-//                d2.draw(pCanvas);
-
-//                Drawable d2 = getResources().getDrawable(R.drawable.grid);
-//                d2.setBounds(100, 100, 452, 69);
-//                d2.draw(pCanvas);
-//                gameBackground = drawableToBitmap(d);
-
-
-//                Canvas singleUseCanvas = new Canvas();
-//
-//                saveBitmap = Bitmap.createBitmap(pCanvas.getWidth(),pCanvas.getHeight(),Bitmap.Config.ARGB_8888);
-//                singleUseCanvas.setBitmap(saveBitmap);
-//
-//                d.getScaledHeight(pCanvas);
-//                d.getScaledWidth(pCanvas);
-//                d.setHeight()
-//
-//                pCanvas.drawBitmap(d, 0, 0, null);
-//                pCanvas.drawBitmap(d2, 100, 100, null);
-
-
-//            }
-//            else
-//            {
-////                pCanvas = canvasBackup;
-////                Drawable d = new BitmapDrawable(getResources(),gameBackground);
-//                pCanvas.setBitmap(saveBitmap);
-//                Drawable d = getResources().getDrawable(R.drawable.grid);
-//                d.setBounds(2, 400, 1078, 1276);
-//                d.draw(pCanvas);
-//
-//            }
-
 
             postInvalidate();
         }
@@ -166,6 +145,29 @@ public class ExampleSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     public void setBackgroundMap(ArrayList objects)
     {
         map = objects;
+
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        bitmapGrid = Bitmap.createBitmap(1080, 1920, conf);
+
+        canvasGrid = new Canvas(bitmapGrid);
+
+        d.setBounds(2, 200, 1076, 1276);
+        d.draw(canvasGrid);
+
+        if(map != null) {
+            for (Object p : map) {
+                Point myp = (Point) p;
+
+                if (myp.getType() == "mh") {
+                    dMH.setBounds(myp.getX() * 67 + 2, myp.getY() * 67 + 200, (myp.getX() + 1) * 67 + 3, myp.getY() * 67 + 203);
+                    dMH.draw(canvasGrid);
+                }
+                if (myp.getType() == "mv") {
+                    dMV.setBounds(myp.getX() * 67, myp.getY() * 67 + 200, myp.getX() * 67 + 3, (myp.getY() + 1) * 67 + 203);
+                    dMV.draw(canvasGrid);
+                }
+            }
+        }
     }
 
 
@@ -223,9 +225,9 @@ public class ExampleSurfaceView extends SurfaceView implements SurfaceHolder.Cal
                         mSurfaceHolder.unlockCanvasAndPost(canvas);
                 }
 
-                // Pour dessiner à 20 fps
+                // Pour dessiner à 50 fps
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(20);
                 } catch (InterruptedException e) {}
             }
         }

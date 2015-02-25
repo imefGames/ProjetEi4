@@ -3,6 +3,7 @@ package com.example.alain.t7;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,6 +17,17 @@ public class T7 extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        android.graphics.Point Size = new android.graphics.Point();
+        display.getSize(Size);
+
+        System.out.println(Size.x);
+        System.out.println(Size.y);
+
+
+
+
 
         FileReadWrite file = new FileReadWrite(this);
 
@@ -49,8 +61,8 @@ public class T7 extends ActionBarActivity {
 
         myView = new ExampleSurfaceView(this);
         myView.setBackgroundMap(data);
-
-        myView.setBackgroundColor(Color.BLUE);
+//
+//        myView.setBackgroundColor(Color.BLUE);
         setContentView(R.layout.activity_t7);
         setContentView(myView);
     }
