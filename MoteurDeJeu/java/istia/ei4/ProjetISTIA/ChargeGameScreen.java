@@ -77,10 +77,4 @@ public class ChargeGameScreen extends GameScreen {
             fileList.add(file);
         }
     }
-
-    public void activateInterface(GamePiece p, int x, int y){
-        gmi.enable(true);
-        gmi.setPosition(x-1, y);
-        gmi.setTarget(p);
-    }
 }

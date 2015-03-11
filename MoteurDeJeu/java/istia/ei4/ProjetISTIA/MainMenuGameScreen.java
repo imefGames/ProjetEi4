@@ -14,6 +14,7 @@ public class MainMenuGameScreen extends GameScreen {
     @Override
     public void create() {
         int ws2 = this.gameManager.getScreenWidth()/2;
+
         int hs2 = this.gameManager.getScreenHeight()/2;
         this.instances.add(new GameButtonGoto(ws2-128, hs2-512, 256, 256, R.drawable.bt_start_up, R.drawable.bt_start_down, 1));
         this.instances.add(new GameButtonGoto(ws2-128, hs2-128, 256, 256, R.drawable.bt_settings_up, R.drawable.bt_settings_down, 2));

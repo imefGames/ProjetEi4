@@ -152,4 +152,9 @@ public class RenderManager {
             this.resourceMap.delete(id);
         }
     }
+
+    public Resources getResources()
+    {
+        return resources;
+    }
 }

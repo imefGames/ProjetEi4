@@ -11,7 +11,7 @@ public class GamePiece implements IGameObject {
     private int y                   = 0;
     private int xObjective          = 0;
     private int yObjective          = 0;
-    private int xGrid               = 400; // TODO: obtenir référence de la grille à la place.
+    private int xGrid               = 400;
     private int yGrid               = 500;
     private int xDraw               = 0;
     private int yDraw               = 0;
@@ -64,7 +64,7 @@ public class GamePiece implements IGameObject {
                 //si l'utilisateur a touché le pion, ...
                 if(dx*dx + dy*dy <= this.radius*this.radius && inputManager.downOccurred()){
                     //afficher l'interface de mouvement
-                    ((ChargeGameScreen)(gameManager.getCurrentScreen())).activateInterface(this, xDraw, yDraw);
+                    ((GridGameScreen)(gameManager.getCurrentScreen())).activateInterface(this, xDraw, yDraw);
                 }
             }
         }else{ //sinon (si le pion doit bouger),
