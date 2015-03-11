@@ -20,6 +20,36 @@ public class GamePiece implements IGameObject {
     private int radius              = 32;
     private int color               = Color.RED;
 
+
+    public int getColor() {
+        return color;
+    }
+
+    public int getxObjective() {
+        return xObjective;
+    }
+
+    public int getyObjective() {
+        return yObjective;
+    }
+
+    public void setyObjective(int yObjective) {
+        this.yObjective = yObjective;
+        this.y = this.yObjective; //Todo : enlever et mettre une animation
+    }
+
+    public void setxObjective(int xObjective) {
+        this.xObjective = xObjective;
+
+        this.x = this.xObjective; //Todo : enlever et mettre une animation
+    }
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
+    }
     public GamePiece(int x, int y, int color){
         this.x = x;
         this.y = y;

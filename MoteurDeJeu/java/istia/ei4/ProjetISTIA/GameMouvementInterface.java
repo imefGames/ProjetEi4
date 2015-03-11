@@ -79,7 +79,8 @@ public class GameMouvementInterface implements IGameObject {
                     if(this.decision >=0){
                         //todo: acquérir destination du pion
                         //todo: transmettre cette destination
-                        //((GridGameScreen)(gameManager.getCurrentScreen())).
+
+                        ((GridGameScreen)(gameManager.getCurrentScreen())).editDestination(target, this.decision);
                     }
                 }else if(inputManager.moveOccurred()){ //sinon, si l'utilisateur bouge son doigt, gérer déplacement...
                     int dx, dy;

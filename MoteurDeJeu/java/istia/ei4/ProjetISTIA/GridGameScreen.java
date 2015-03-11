@@ -31,11 +31,8 @@ public class GridGameScreen extends GameScreen {
     private int margin = 0;
 
     private GameMouvementInterface gmi;
-
-
     private Bitmap bitmapGrid;
     RenderManager currentRenderManager;
-
     Map<String, Drawable> drawables = new HashMap<String, Drawable>();
     Map<String, Integer> colors = new HashMap<String, Integer>();
 
@@ -53,10 +50,6 @@ public class GridGameScreen extends GameScreen {
         bitmapGrid = Bitmap.createBitmap((int)(16 * gridSpace), (int) (16 * gridSpace), conf);
         canvasGrid = new Canvas(bitmapGrid);
         currentRenderManager = gameManager.getRenderManager();
-
-
-
-
     }
 
     @Override
@@ -178,6 +171,11 @@ public class GridGameScreen extends GameScreen {
         colors.put("rv", Color.GREEN);
         colors.put("rj", Color.YELLOW);
 
+        colors.put("cr", Color.RED);
+        colors.put("cb", Color.BLUE);
+        colors.put("cv", Color.GREEN);
+        colors.put("cj", Color.YELLOW);
+
         for (Object element : gridElements) {
                 GridElement myp = (GridElement) element;
 
@@ -199,5 +197,114 @@ public class GridGameScreen extends GameScreen {
         gmi.setTarget(p);
     }
 
+    public void editDestination(GamePiece p, int direction)
+    {
+        int xDestination = p.getxObjective();
+        int yDestination = p.getyObjective();
 
+        boolean canMove = true;
+
+        for(Object instance : this.instances)
+        {
+            if(instance.getClass() == p.getClass() && p != instance && canMove)
+            {
+                switch(direction){
+                    case 0:     // haut
+                        canMove = collision((GamePiece) instance, xDestination, yDestination - 1, canMove);
+                        break;
+                    case 1:     // droite
+                        canMove = collision((GamePiece) instance, xDestination+1, yDestination, canMove);
+                        break;
+                    case 2:     // bas
+                        canMove = collision((GamePiece) instance, xDestination, yDestination + 1, canMove);
+                        break;
+                    case 3:     // gauche
+                        canMove = collision((GamePiece) instance, xDestination-1, yDestination, canMove);
+                        break;
+                }
+            }
+        }
+//        System.out.println("CanMove Robot");
+//        System.out.println(canMove);
+
+
+        for (Object element : gridElements) {
+            GridElement myp = (GridElement) element;
+
+            if ((myp.getType() == "mv") && (direction == 1)) {  // droite
+                canMove = collision(p, myp.getX() - 1, myp.getY(), canMove);
+            }
+            if ((myp.getType() == "mv") && (direction == 3)) {  // gauche
+                canMove = collision(p, myp.getX(), myp.getY(), canMove);
+            }
+
+            if ((myp.getType() == "mh") && (direction == 0)) {  // haut
+                canMove = collision(p, myp.getX(), myp.getY(), canMove);
+            }
+            if ((myp.getType() == "mh") && (direction == 2)) {  // bas
+                canMove = collision(p, myp.getX(), myp.getY() - 1, canMove);
+            }
+        }
+
+//        System.out.println("CanMove Walls");
+//        System.out.println(canMove);
+
+        if(canMove)
+        {
+            switch(direction){
+                case 0:     // haut
+                    yDestination -= 1;
+                    break;
+                case 1:     // droite
+                    xDestination +=1;
+                    break;
+                case 2:     // bas
+                    yDestination += 1;
+                    break;
+                case 3:     // gauche
+                    xDestination -=1;
+                    break;
+            }
+            p.setxObjective(xDestination);
+            p.setyObjective(yDestination);
+
+            editDestination(p, direction);
+        }
+
+        boolean b = gagne(p);
+
+    }
+
+    public boolean gagne(GamePiece p)
+    {
+        for (Object element : gridElements) {
+            GridElement myp = (GridElement) element;
+            {
+                if (myp.getType().equals("cm") && myp.getX() == p.getX() && myp.getY() == p.getY())
+                {
+                    System.out.println("GAGNE !!!");
+                    return true;
+                }
+                else if((myp.getX() == p.getX()) && (myp.getY() == p.getY()) && (myp.getType().equals("cr") || myp.getType().equals("cv") || myp.getType().equals("cb") || myp.getType().equals("cj")))
+                {
+
+                    if(p.getColor() == colors.get((myp.getType())))
+                    {
+                        System.out.println("GAGNE !!!");
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public Boolean collision(GamePiece p, int x, int y, boolean canMove)
+    {
+        if(p.getxObjective() == x && p.getyObjective() == y && canMove == true)
+            return false;
+        else if(canMove == false)
+            return false;
+        return true;
+    }
 }
