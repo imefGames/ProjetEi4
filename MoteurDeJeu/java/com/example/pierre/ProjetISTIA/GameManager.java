@@ -30,8 +30,14 @@ public class GameManager {
         this.screens.append(1, new GameOptionsGameScreen(this));
         this.screens.append(2, new SettingsGameScreen(this));
         this.screens.append(3, new CreditsGameScreen(this));
+
+        this.screens.append(4, new GridGameScreen(this));
         //end of list of all screens
         this.currentScreen = this.screens.get(0);
+    }
+
+    public SparseArray<GameScreen> getScreens(){
+        return this.screens;
     }
 
     /*

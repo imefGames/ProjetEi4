@@ -67,7 +67,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas pCanvas) {
         synchronized (this.renderManager) {
-            this.renderManager.setTarget(pCanvas);
+            this.renderManager.setMainTarget(pCanvas);
         }
         synchronized (this.gameManager) {
             this.gameManager.draw();
@@ -85,7 +85,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                 this.inputManager.resetEvents(); //reset events
             }
         }catch(Exception e){
-            //voir comment envoyer l'erreur...
         }
     }
 
@@ -135,14 +134,18 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                         if(canvas != null){ tick(canvas); }
 
                     }
-                } finally {
+                } catch(Exception e){
+                    synchronized(System.out){
+                        System.out.println(e.getMessage());
+                    }
+                }finally {
                     // Notre dessin fini, on relâche le Canvas pour que le dessin s'affiche
                     if (canvas != null)
                         mHolder.unlockCanvasAndPost(canvas);
                 }
-                // Pour dessiner à 20 fps
+                // Pour dessiner à 30 fps
                 try {
-                    Thread.sleep(20);
+                    Thread.sleep(33);
                 } catch (InterruptedException e) {
                 }
             }

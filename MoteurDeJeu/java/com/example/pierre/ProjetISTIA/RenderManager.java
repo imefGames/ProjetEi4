@@ -9,14 +9,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.SparseArray;
 
+import java.util.Random;
+
 /**
  * Created by Pierre on 21/01/2015.
  */
 public class RenderManager {
-    private Canvas target;
+    private Canvas target, mainTarget;
     private Paint brush;
     private Resources resources;
     private SparseArray<Drawable> resourceMap;
+    private Random random;
 
     /*
      * Constructeur de la classe RenderManager.
@@ -28,6 +31,21 @@ public class RenderManager {
         this.brush.setColor(Color.WHITE);
         this.resources = resources;
         this.resourceMap = new SparseArray<Drawable>();
+        this.random = new Random();
+    }
+
+    public Resources getResources()
+    {
+        return resources;
+    }
+
+    /*
+     * Change le canvas cible principale sur laquelle le RenderManager va déssiner.
+     * @param Référence du canvas à cibler.
+     */
+    public void setMainTarget(Canvas target){
+        this.mainTarget = target;
+        this.target = target;
     }
 
     /*
@@ -36,6 +54,14 @@ public class RenderManager {
      */
     public void setTarget(Canvas target){
         this.target = target;
+    }
+
+    /*
+     * Le canvas cible sur laquelle le RenderManager va déssiner est de nouveau la cible principale.
+     * @param Référence du canvas à cibler.
+     */
+    public void resetTarget(){
+        this.target = this.mainTarget;
     }
 
     /*
@@ -112,9 +138,25 @@ public class RenderManager {
     /*
      * Charge en mémoire un bitmap.
      * @param référence du Bitmap à afficher
-     * @param index à utiliser pour réutiliser le Bitmap
      */
-    public void loadBitmap(Bitmap bmp, int id){
+    public int loadBitmap(Bitmap bmp){
+        int id = this.random.nextInt();
+
+        while(this.resourceMap.indexOfKey(id) > 0){
+            id = this.random.nextInt();
+        }
+
         this.resourceMap.append(id, new BitmapDrawable(this.resources, bmp));
+        return id;
+    }
+
+    /*
+     * Décharge en mémoire une image.
+     * @param index de l'image
+     */
+    public void unloadBitmap(int id){
+        if(this.resourceMap.indexOfKey(id) >= 0){
+            this.resourceMap.delete(id);
+        }
     }
 }
