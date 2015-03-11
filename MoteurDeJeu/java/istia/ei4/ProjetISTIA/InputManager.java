@@ -1,4 +1,4 @@
-package com.example.pierre.ProjetISTIA;
+package istia.ei4.ProjetISTIA;
 
 /**
  * Created by Pierre on 17/01/2015.

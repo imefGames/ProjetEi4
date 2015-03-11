@@ -1,11 +1,11 @@
-package com.example.pierre.ProjetISTIA;
+package istia.ei4.ProjetISTIA;
 
 import android.graphics.Color;
 
 /**
  * Created by Pierre on 21/01/2015.
  */
-public class GameButton implements IGameObject {
+public abstract class GameButton implements IGameObject {
 
     private int x, y, w, h;
     private int imageUp, imageDown;
@@ -56,11 +56,13 @@ public class GameButton implements IGameObject {
             if(inputManager.upOccurred()){
                 if(this.btDown){
                     this.btDown = false;
-                    inputManager.resetEvents();
+                    this.onClick(gameManager);
                 }
             }
         }
     }
+
+    public abstract void onClick(GameManager gameManager);
 
     @Override
     public void destroy(){

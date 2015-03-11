@@ -1,4 +1,4 @@
-package com.example.pierre.ProjetISTIA;
+package istia.ei4.ProjetISTIA;
 
 import java.util.ArrayList;
 
@@ -12,6 +12,8 @@ public abstract class GameScreen implements IGameObject {
     public GameScreen(GameManager gameManager){
         this.instances = new ArrayList<IGameObject>();
         this.gameManager = gameManager;
+        this.create();
+        this.load(gameManager.getRenderManager());
     }
 
     @Override

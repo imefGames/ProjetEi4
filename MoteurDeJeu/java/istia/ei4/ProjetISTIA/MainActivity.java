@@ -1,4 +1,4 @@
-package com.example.pierre.ProjetISTIA;
+package istia.ei4.ProjetISTIA;
 
 import android.app.Activity;
 import android.graphics.Color;

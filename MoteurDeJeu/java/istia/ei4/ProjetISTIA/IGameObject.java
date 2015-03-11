@@ -1,6 +1,4 @@
-package com.example.pierre.ProjetISTIA;
-
-import android.graphics.Canvas;
+package istia.ei4.ProjetISTIA;
 
 /**
  * Created by Pierre on 21/01/2015.

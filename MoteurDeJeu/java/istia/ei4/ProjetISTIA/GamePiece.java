@@ -1,0 +1,79 @@
+package istia.ei4.ProjetISTIA;
+
+import android.graphics.Color;
+
+/**
+ * Created by Pierre on 25/02/2015.
+ */
+public class GamePiece implements IGameObject {
+
+    private int x                   = 0;
+    private int y                   = 0;
+    private int xObjective          = 0;
+    private int yObjective          = 0;
+    private int xGrid               = 400; // TODO: obtenir référence de la grille à la place.
+    private int yGrid               = 500;
+    private int xDraw               = 0;
+    private int yDraw               = 0;
+    private int widthCell           = 16;
+    private int heightCell          = 16;
+    private int radius              = 32;
+    private int color               = Color.RED;
+
+    public GamePiece(int x, int y, int color){
+        this.x = x;
+        this.y = y;
+        this.xObjective = x;
+        this.yObjective = y;
+        this.color = color;
+    }
+
+    public void setGridDimensions(int xGrid, int yGrid, int wGrid, int hGrid){
+        // TODO: modifier les dimensions de la grille & le rayon du pion.
+    }
+
+    @Override
+    public void create(){
+    }
+
+    @Override
+    public void load(RenderManager renderManager){
+    }
+
+    @Override
+    public void draw(RenderManager renderManager){
+        renderManager.setColor(this.color);
+        //afficher le pion
+        xDraw = (int)(this.xGrid+(this.x+0.5f)*this.widthCell); //todo: corriger?
+        yDraw = (int)(this.yGrid+(this.y+0.5f)*this.heightCell); //todo: corriger?
+        renderManager.drawCircle(xDraw, yDraw, this.radius);
+    }
+
+    @Override
+    public void update(GameManager gameManager){
+        //si le pion n'est pas en mouvement, ...
+        if(this.x == this.xObjective && this.y == this.yObjective){
+            //si il y a une entrée utilisateur, ...
+            InputManager inputManager = gameManager.getInputManager();
+            if(inputManager.eventHasOccurred()){
+                int xTouch, yTouch, dx, dy;
+                xTouch = (int)inputManager.getTouchX();
+                yTouch = (int)inputManager.getTouchY();
+                dx = xTouch - this.xDraw;
+                dy = yTouch - this.yDraw;
+                //si l'utilisateur a touché le pion, ...
+                if(dx*dx + dy*dy <= this.radius*this.radius && inputManager.downOccurred()){
+                    //afficher l'interface de mouvement
+                    ((ChargeGameScreen)(gameManager.getCurrentScreen())).activateInterface(this, xDraw, yDraw);
+                }
+            }
+        }else{ //sinon (si le pion doit bouger),
+            //todo: bouger le pion
+        }
+    }
+
+    @Override
+    public void destroy(){
+    }
+
+}
