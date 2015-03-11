@@ -15,8 +15,8 @@ public class GamePiece implements IGameObject {
     private int yGrid               = 500;
     private int xDraw               = 0;
     private int yDraw               = 0;
-    private int widthCell           = 16;
-    private int heightCell          = 16;
+    private float widthCell           = 16;
+    private float heightCell          = 16;
     private int radius              = 32;
     private int color               = Color.RED;
 
@@ -28,8 +28,13 @@ public class GamePiece implements IGameObject {
         this.color = color;
     }
 
-    public void setGridDimensions(int xGrid, int yGrid, int wGrid, int hGrid){
+    public void setGridDimensions(int xGrid, int yGrid, float cellSize){
         // TODO: modifier les dimensions de la grille & le rayon du pion.
+        this.xGrid = xGrid;
+        this.yGrid = yGrid;
+        this.widthCell = this.heightCell = cellSize;
+        this.radius = (int) (cellSize / 2);
+
     }
 
     @Override
@@ -44,8 +49,9 @@ public class GamePiece implements IGameObject {
     public void draw(RenderManager renderManager){
         renderManager.setColor(this.color);
         //afficher le pion
-        xDraw = (int)(this.xGrid+(this.x+0.5f)*this.widthCell); //todo: corriger?
-        yDraw = (int)(this.yGrid+(this.y+0.5f)*this.heightCell); //todo: corriger?
+
+        xDraw = (int)(this.xGrid+(this.x+0.5f)*this.widthCell);
+        yDraw = (int)(this.yGrid+(this.y+0.5f)*this.heightCell);
         renderManager.drawCircle(xDraw, yDraw, this.radius);
     }
 
@@ -65,10 +71,13 @@ public class GamePiece implements IGameObject {
                 if(dx*dx + dy*dy <= this.radius*this.radius && inputManager.downOccurred()){
                     //afficher l'interface de mouvement
                     ((GridGameScreen)(gameManager.getCurrentScreen())).activateInterface(this, xDraw, yDraw);
+
+
                 }
             }
         }else{ //sinon (si le pion doit bouger),
             //todo: bouger le pion
+
         }
     }
 

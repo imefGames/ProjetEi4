@@ -24,6 +24,9 @@ public class GridGameScreen extends GameScreen {
     private int imageGridID;
     private boolean imageLoaded = false;
 
+    private int xGrid = 0;
+    private int yGrid = 100;
+
     private float gridSpace = 0;
     private int margin = 0;
 
@@ -34,11 +37,15 @@ public class GridGameScreen extends GameScreen {
     RenderManager currentRenderManager;
 
     Map<String, Drawable> drawables = new HashMap<String, Drawable>();
+    Map<String, Integer> colors = new HashMap<String, Integer>();
+
 
     public GridGameScreen(GameManager gameManager){
         super(gameManager);
 
         gridSpace = (float)(67.5 * gameManager.getScreenWidth() /1080);
+        xGrid = 0;
+        yGrid = (int)1080/5;
 
 
         Bitmap.Config conf = Bitmap.Config.ARGB_4444;
@@ -55,7 +62,7 @@ public class GridGameScreen extends GameScreen {
     @Override
     public void create()
     {
-        this.instances.add(new GamePiece(0, 0, Color.RED));
+//        this.instances.add(new GamePiece(0, 0, Color.RED));
         gmi = new GameMouvementInterface();
         this.instances.add(gmi);
     }
@@ -74,16 +81,16 @@ public class GridGameScreen extends GameScreen {
 
         if(imageLoaded)
         {
-            gameManager.getRenderManager().drawImage(0, 100, (int)(16*gridSpace), (int)(16*gridSpace),  imageGridID);
+            gameManager.getRenderManager().drawImage(xGrid, yGrid, (int)(16*gridSpace) + xGrid, (int)(16*gridSpace) + yGrid,  imageGridID);
 
-            for (Object element : gridElements) {
-                GridElement myp = (GridElement) element;
-
-                if (myp.getType() == "rr" || myp.getType() == "rv" || myp.getType() == "rj" || myp.getType() == "rb") {
-                    drawables.get(myp.getType()).setBounds((int)(myp.getX() * gridSpace),(int)(myp.getY() * gridSpace), (int)((myp.getX() + 1) * gridSpace), (int)((myp.getY()+1) * gridSpace));
-                    drawables.get(myp.getType()).draw(canvasGrid);
-                }
-            }
+//            for (Object element : gridElements) {
+//                GridElement myp = (GridElement) element;
+//
+//                if (myp.getType() == "rr" || myp.getType() == "rv" || myp.getType() == "rj" || myp.getType() == "rb") {
+//                    drawables.get(myp.getType()).setBounds((int)(myp.getX() * gridSpace),(int)(myp.getY() * gridSpace), (int)((myp.getX() + 1) * gridSpace), (int)((myp.getY()+1) * gridSpace));
+//                    drawables.get(myp.getType()).draw(canvasGrid);
+//                }
+//            }
         }
         super.draw(renderManager);
     }
@@ -118,8 +125,6 @@ public class GridGameScreen extends GameScreen {
         drawables.put("cj", currentRenderManager.getResources().getDrawable(R.drawable.cj));
         drawables.put("cb", currentRenderManager.getResources().getDrawable(R.drawable.cb));
         drawables.put("cm", currentRenderManager.getResources().getDrawable(R.drawable.cm));
-
-
 
 
         drawables.get("grid").setBounds(0, 0,(int)( 16 * gridSpace),(int)( 16 * gridSpace));
@@ -162,6 +167,30 @@ public class GridGameScreen extends GameScreen {
 
         System.out.println("Fin de createGrid");
 
+        createRobots();
+
+    }
+
+    public void createRobots()
+    {
+        colors.put("rr", Color.RED);
+        colors.put("rb", Color.BLUE);
+        colors.put("rv", Color.GREEN);
+        colors.put("rj", Color.YELLOW);
+
+        for (Object element : gridElements) {
+                GridElement myp = (GridElement) element;
+
+                if (myp.getType() == "rr" || myp.getType() == "rv" || myp.getType() == "rj" || myp.getType() == "rb") {
+//                    drawables.get(myp.getType()).setBounds((int)(myp.getX() * gridSpace),(int)(myp.getY() * gridSpace), (int)((myp.getX() + 1) * gridSpace), (int)((myp.getY()+1) * gridSpace));
+//                    drawables.get(myp.getType()).draw(canvasGrid);
+
+                    GamePiece currentPiece = new GamePiece(myp.getX(), myp.getY(), colors.get(myp.getType()));
+                    currentPiece.setGridDimensions(xGrid, yGrid, gridSpace);
+
+                    this.instances.add(currentPiece);
+                }
+            }
     }
 
     public void activateInterface(GamePiece p, int x, int y){
@@ -169,4 +198,6 @@ public class GridGameScreen extends GameScreen {
         gmi.setPosition(x-1, y);
         gmi.setTarget(p);
     }
+
+
 }
