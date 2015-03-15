@@ -204,6 +204,8 @@ public class GridGameScreen extends GameScreen {
 
         boolean canMove = true;
 
+
+
         for(Object instance : this.instances)
         {
             if(instance.getClass() == p.getClass() && p != instance && canMove)
@@ -277,6 +279,8 @@ public class GridGameScreen extends GameScreen {
 
     public boolean gagne(GamePiece p)
     {
+        System.out.println("test si gagne");
+
         for (Object element : gridElements) {
             GridElement myp = (GridElement) element;
             {

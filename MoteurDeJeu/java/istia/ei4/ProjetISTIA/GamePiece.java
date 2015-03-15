@@ -19,7 +19,14 @@ public class GamePiece implements IGameObject {
     private float heightCell          = 16;
     private int radius              = 32;
     private int color               = Color.RED;
+    private boolean inMouvement     = false;
+    private int deltaX              = 0;
+    private int deltaY              = 0;
 
+
+    public boolean isInMouvement() {
+        return inMouvement;
+    }
 
     public int getColor() {
         return color;
@@ -35,13 +42,13 @@ public class GamePiece implements IGameObject {
 
     public void setyObjective(int yObjective) {
         this.yObjective = yObjective;
-        this.y = this.yObjective; //Todo : enlever et mettre une animation
+//        this.y = this.yObjective; //Todo : enlever et mettre une animation
     }
 
     public void setxObjective(int xObjective) {
         this.xObjective = xObjective;
 
-        this.x = this.xObjective; //Todo : enlever et mettre une animation
+//        this.x = this.xObjective; //Todo : enlever et mettre une animation
     }
     public int getY() {
         return y;
@@ -80,15 +87,16 @@ public class GamePiece implements IGameObject {
         renderManager.setColor(this.color);
         //afficher le pion
 
-        xDraw = (int)(this.xGrid+(this.x+0.5f)*this.widthCell);
-        yDraw = (int)(this.yGrid+(this.y+0.5f)*this.heightCell);
+        xDraw = (int)(this.xGrid+((this.x+((float)deltaX)/10)+0.5f)*this.widthCell);
+        yDraw = (int)(this.yGrid+((this.y+((float)deltaY)/10)+0.5f)*this.heightCell);
         renderManager.drawCircle(xDraw, yDraw, this.radius);
     }
 
     @Override
     public void update(GameManager gameManager){
         //si le pion n'est pas en mouvement, ...
-        if(this.x == this.xObjective && this.y == this.yObjective){
+        if(this.x == this.xObjective && this.y == this.yObjective && deltaX == 0 && deltaY == 0){
+//            inMouvement = false;
             //si il y a une entrée utilisateur, ...
             InputManager inputManager = gameManager.getInputManager();
             if(inputManager.eventHasOccurred()){
@@ -108,6 +116,36 @@ public class GamePiece implements IGameObject {
         }else{ //sinon (si le pion doit bouger),
             //todo: bouger le pion
 
+            inMouvement = true;
+
+
+            if(this.x < this.xObjective)
+                deltaX +=1;
+            if(this.x > this.xObjective)
+                deltaX -=1;
+
+            if(this.y < this.yObjective)
+                deltaY+=1;
+            if(this.y > this.yObjective)
+                deltaY-=1;
+
+
+            if(deltaX > 9) {
+                this.x += 1;
+                deltaX = 0;
+            }
+            if(deltaX < -9) {
+                this.x -= 1;
+                deltaX = 0;
+            }
+            if(deltaY > 9) {
+                this.y += 1;
+                deltaY = 0;
+            }
+            if(deltaY < -9) {
+                this.y -= 1;
+                deltaY = 0;
+            }
         }
     }
 
