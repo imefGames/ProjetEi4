@@ -42,13 +42,12 @@ public class GamePiece implements IGameObject {
 
     public void setyObjective(int yObjective) {
         this.yObjective = yObjective;
-//        this.y = this.yObjective; //Todo : enlever et mettre une animation
+
     }
 
     public void setxObjective(int xObjective) {
         this.xObjective = xObjective;
 
-//        this.x = this.xObjective; //Todo : enlever et mettre une animation
     }
     public int getY() {
         return y;

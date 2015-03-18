@@ -141,7 +141,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                     synchronized(System.out){
                         System.out.println(e.getMessage());
                     }
-                }finally {
+                }
+                finally {
                     // Notre dessin fini, on relâche le Canvas pour que le dessin s'affiche
                     if (canvas != null)
                         mHolder.unlockCanvasAndPost(canvas);

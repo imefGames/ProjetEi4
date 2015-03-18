@@ -4,10 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.view.Display;
-import android.view.WindowManager;
-import android.widget.Toast;
-import android.content.Context;
 
 import java.util.*;
 import java.util.HashMap;
@@ -42,7 +38,7 @@ public class GridGameScreen extends GameScreen {
 
         gridSpace = (float)(67.5 * gameManager.getScreenWidth() /1080);
         xGrid = 0;
-        yGrid = (int)1080/5;
+        yGrid = 1080/5;
 
 
         Bitmap.Config conf = Bitmap.Config.ARGB_4444;
@@ -94,6 +90,11 @@ public class GridGameScreen extends GameScreen {
 
         MapGenerator generatedMap = new MapGenerator();
         gridElements = generatedMap.get16DimensionalMap();
+
+//        MapObjects mapobjects = new MapObjects();
+//        FileReadWrite file = new FileReadWrite();
+//        file.write("/sdcard/generatedMap.txt", mapobjects.createStringFromList(gridElements));
+
 
         createGrid();
 
@@ -176,12 +177,18 @@ public class GridGameScreen extends GameScreen {
         colors.put("cv", Color.GREEN);
         colors.put("cj", Color.YELLOW);
 
+        for(Object currentObject : this.instances)
+        {
+            if(currentObject.getClass() == GamePiece.class)
+            {
+                this.instances.remove(currentObject);
+            }
+        }
+
         for (Object element : gridElements) {
                 GridElement myp = (GridElement) element;
 
                 if (myp.getType() == "rr" || myp.getType() == "rv" || myp.getType() == "rj" || myp.getType() == "rb") {
-//                    drawables.get(myp.getType()).setBounds((int)(myp.getX() * gridSpace),(int)(myp.getY() * gridSpace), (int)((myp.getX() + 1) * gridSpace), (int)((myp.getY()+1) * gridSpace));
-//                    drawables.get(myp.getType()).draw(canvasGrid);
 
                     GamePiece currentPiece = new GamePiece(myp.getX(), myp.getY(), colors.get(myp.getType()));
                     currentPiece.setGridDimensions(xGrid, yGrid, gridSpace);

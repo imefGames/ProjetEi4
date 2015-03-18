@@ -1,8 +1,8 @@
 package istia.ei4.ProjetISTIA;
-
 /**
  * Created by Alain on 21/01/2015.
  */
+
 public class GridElement {
 
     public static int dimension = 2 ;
