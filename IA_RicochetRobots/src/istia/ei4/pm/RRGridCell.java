@@ -2,7 +2,7 @@ package istia.ei4.pm;
 
 /**
  *
- * @author usrlocal
+ * @author Pierre Michel
  */
 public class RRGridCell {
   
@@ -45,7 +45,7 @@ public class RRGridCell {
     }
   }
   
-  public boolean doMove(RRPosition pos, ERRGameMove move){
+  public boolean doMove(RRPiece pos, ERRGameMove move){
     boolean didMove = this.getWall(move);
     if(didMove){
       switch(move.getDirection()){

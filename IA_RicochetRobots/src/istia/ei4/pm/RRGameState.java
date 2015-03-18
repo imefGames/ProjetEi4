@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package istia.ei4.pm;
 
 import istia.ei4.pm.ia.AGameState;
@@ -20,17 +15,24 @@ public class RRGameState extends AGameState {
     super(parentState, previousMove);
   }
   
+  public void setPieces(ArrayList<RRPiece> mainPieces, ArrayList<RRPiece> secondaryPieces){
+    this.allPieces = new ArrayList<RRPiece>();
+    this.allPieces.addAll(mainPieces);
+    this.allPieces.addAll(secondaryPieces);
+    this.mainPieces = mainPieces;
+    this.secondaryPieces = secondaryPieces;
+  }
+  
   @Override
   public ArrayList<AGameState> computeDerivedStates(AWorld world) {
     // TODO: compute states
     return null;
   }
-
-  @Override
-  public void computeScore(AWorld world) {
-    // TODO: compute scores
+  
+  public ArrayList<RRPiece> getPieces(){
+    return this.allPieces;
   }
   
-  // TODO: add attributes
+  private ArrayList<RRPiece> allPieces, mainPieces, secondaryPieces;
   
 }

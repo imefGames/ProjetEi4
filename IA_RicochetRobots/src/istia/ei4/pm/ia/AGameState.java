@@ -18,19 +18,13 @@ public abstract class AGameState {
   }
   
   public abstract ArrayList<AGameState> computeDerivedStates(AWorld world);
-  public abstract void computeScore(AWorld world);
   
   public int getDepth(){
     return this.depth;
   }
   
-  public int getScore(){
-    return this.score;
-  }
-  
   protected ArrayList<AGameState> derivedStates;
   protected AGameState parentState;
-  protected int score = 0;
   protected IGameMove previousMove;
   protected int depth = 0;
   

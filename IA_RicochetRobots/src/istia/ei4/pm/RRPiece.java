@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package istia.ei4.pm;
 
 /**
  *
- * @author usrlocal
+ * @author Pierre Michel
  */
-public class RRPiece extends RRPosition {
+public class RRPiece{
   
   public RRPiece(){
     this.x = 0;
@@ -37,6 +32,38 @@ public class RRPiece extends RRPosition {
     this.color = color;
   }
   
-  private int color;
+  public int getX(){
+    return this.x;
+  }
+  
+  public void setX(int x){
+    this.x = x;
+  }
+  
+  public void incX(){
+    this.x++;
+  }
+  
+  public void decX(){
+    this.x--;
+  }
+  
+  public int getY(){
+    return this.y;
+  }
+  
+  public void setY(int y){
+    this.y = y;
+  }
+  
+  public void incY(){
+    this.y++;
+  }
+  
+  public void decY(){
+    this.y--;
+  }
+  
+  private int x, y, color;
   
 }
