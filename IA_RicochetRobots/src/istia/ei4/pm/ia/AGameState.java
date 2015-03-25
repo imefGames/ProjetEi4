@@ -9,29 +9,24 @@ import java.util.ArrayList;
 public abstract class AGameState {
   
   public AGameState(AGameState parentState, IGameMove previousMove){
-    this.derivedStates = new ArrayList<AGameState>();
+    this.derivedStates = new ArrayList<>();
     this.parentState = parentState;
     this.previousMove = previousMove;
-    if(parentState != null){
-      this.depth = parentState.depth;
-    }
   }
   
   public abstract ArrayList<AGameState> computeDerivedStates(AWorld world);
-  public abstract void computeScore(AWorld world);
+  public abstract long computeHash(AWorld world);
   
-  public int getDepth(){
-    return this.depth;
+  public AGameState getParentState(){
+    return this.parentState;
   }
   
-  public int getScore(){
-    return this.score;
+  public IGameMove getPreviousMove(){
+    return this.previousMove;
   }
   
   protected ArrayList<AGameState> derivedStates;
   protected AGameState parentState;
-  protected int score = 0;
   protected IGameMove previousMove;
-  protected int depth = 0;
   
 }
