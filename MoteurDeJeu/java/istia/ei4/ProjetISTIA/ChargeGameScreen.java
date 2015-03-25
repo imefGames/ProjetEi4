@@ -25,7 +25,6 @@ public class ChargeGameScreen extends GameScreen {
     @Override
     public void create(){
         this.instances.add(new GamePiece(0, 0, Color.RED));
-
         gmi = new GameMouvementInterface();
         this.instances.add(gmi);
     }

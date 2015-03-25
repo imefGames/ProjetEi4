@@ -4,10 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.view.Display;
-import android.view.WindowManager;
-import android.widget.Toast;
-import android.content.Context;
 
 import java.util.*;
 import java.util.HashMap;
@@ -30,6 +26,10 @@ public class GridGameScreen extends GameScreen {
     private float gridSpace = 0;
     private int margin = 0;
 
+    private int timeCpt = 0;
+    private int nbCoups = 0;
+    private long prevTime;
+
     private GameMouvementInterface gmi;
     private Bitmap bitmapGrid;
     RenderManager currentRenderManager;
@@ -42,28 +42,44 @@ public class GridGameScreen extends GameScreen {
 
         gridSpace = (float)(67.5 * gameManager.getScreenWidth() /1080);
         xGrid = 0;
-        yGrid = (int)1080/5;
-
+        yGrid = 1080/5;
 
         Bitmap.Config conf = Bitmap.Config.ARGB_4444;
 
         bitmapGrid = Bitmap.createBitmap((int)(16 * gridSpace), (int) (16 * gridSpace), conf);
         canvasGrid = new Canvas(bitmapGrid);
         currentRenderManager = gameManager.getRenderManager();
+
+        prevTime = System.currentTimeMillis();
     }
 
     @Override
     public void create()
     {
-//        this.instances.add(new GamePiece(0, 0, Color.RED));
         gmi = new GameMouvementInterface();
-        this.instances.add(gmi);
+
+        xGrid = 0;
+        yGrid = 1080/5;
+
+        int y = yGrid+gameManager.getScreenWidth();
+        int dy = gameManager.getScreenHeight()-y;
+        int w = 8*gameManager.getScreenWidth()/20;
+        int h = 8*dy/20;
+        int y1 = y+dy/20;
+        int y2 = y+11*dy/20;
+        int x1 = gameManager.getScreenWidth()/20;
+        int x2 = 11*gameManager.getScreenWidth()/20;
+
+        this.instances.add(new GameButtonGoto(x1, y1, w, h, R.drawable.bt_jeu_retour_up, R.drawable.bt_jeu_retour_down, 1));
+        this.instances.add(new GameButtonGeneral(x2, y1, w, h, R.drawable.bt_jeu_reset_up, R.drawable.bt_jeu_reset_down, new ButtonRestart()));
+        this.instances.add(new GameButtonGoto(x1, y2, w, h, R.drawable.bt_jeu_save_up, R.drawable.bt_jeu_save_down, 1));
+        this.instances.add(new GameButtonGeneral(x2, y2, w, h, R.drawable.bt_jeu_resolution_up, R.drawable.bt_jeu_resolution_down, new ButtonSolution()));
     }
 
     @Override
     public void load(RenderManager renderManager) {
         super.load(renderManager);
-
+        this.gmi.load(renderManager);
     }
 
     @Override
@@ -72,20 +88,27 @@ public class GridGameScreen extends GameScreen {
         renderManager.setColor(Color.argb(255, 175, 167, 123));
         renderManager.paintScreen();
 
+        renderManager.setColor(Color.BLACK);
+        int textS = yGrid/2-50;
+        renderManager.setTextSize(textS);
+        renderManager.drawText(10, textS, "Nombre de coups: " + nbCoups);
+        renderManager.drawText(10, yGrid/2+textS, "Temps: " + timeCpt/60 + ":" + timeCpt%60);
+
         if(imageLoaded)
         {
             gameManager.getRenderManager().drawImage(xGrid, yGrid, (int)(16*gridSpace) + xGrid, (int)(16*gridSpace) + yGrid,  imageGridID);
-
-//            for (Object element : gridElements) {
-//                GridElement myp = (GridElement) element;
-//
-//                if (myp.getType() == "rr" || myp.getType() == "rv" || myp.getType() == "rj" || myp.getType() == "rb") {
-//                    drawables.get(myp.getType()).setBounds((int)(myp.getX() * gridSpace),(int)(myp.getY() * gridSpace), (int)((myp.getX() + 1) * gridSpace), (int)((myp.getY()+1) * gridSpace));
-//                    drawables.get(myp.getType()).draw(canvasGrid);
-//                }
-//            }
         }
         super.draw(renderManager);
+        this.gmi.draw(renderManager);
+    }
+
+    public void update(GameManager gameManager){
+        super.update(gameManager);
+        if(System.currentTimeMillis() - prevTime > 1000L){
+            timeCpt++;
+            prevTime = System.currentTimeMillis();
+        }
+        this.gmi.update(gameManager);
     }
 
     public void setRandomGame(boolean random)
@@ -101,6 +124,9 @@ public class GridGameScreen extends GameScreen {
 
     public void createGrid()
     {
+
+        timeCpt = 0;
+        prevTime = System.currentTimeMillis();
 
         currentRenderManager.setTarget(canvasGrid);
 
@@ -177,18 +203,18 @@ public class GridGameScreen extends GameScreen {
         colors.put("cj", Color.YELLOW);
 
         for (Object element : gridElements) {
-                GridElement myp = (GridElement) element;
+            GridElement myp = (GridElement) element;
 
-                if (myp.getType() == "rr" || myp.getType() == "rv" || myp.getType() == "rj" || myp.getType() == "rb") {
+            if (myp.getType() == "rr" || myp.getType() == "rv" || myp.getType() == "rj" || myp.getType() == "rb") {
 //                    drawables.get(myp.getType()).setBounds((int)(myp.getX() * gridSpace),(int)(myp.getY() * gridSpace), (int)((myp.getX() + 1) * gridSpace), (int)((myp.getY()+1) * gridSpace));
 //                    drawables.get(myp.getType()).draw(canvasGrid);
 
-                    GamePiece currentPiece = new GamePiece(myp.getX(), myp.getY(), colors.get(myp.getType()));
-                    currentPiece.setGridDimensions(xGrid, yGrid, gridSpace);
+                GamePiece currentPiece = new GamePiece(myp.getX(), myp.getY(), colors.get(myp.getType()));
+                currentPiece.setGridDimensions(xGrid, yGrid, gridSpace);
 
-                    this.instances.add(currentPiece);
-                }
+                this.instances.add(currentPiece);
             }
+        }
     }
 
     public void activateInterface(GamePiece p, int x, int y){
@@ -271,6 +297,8 @@ public class GridGameScreen extends GameScreen {
             p.setyObjective(yDestination);
 
             editDestination(p, direction);
+        }else{
+            nbCoups++;
         }
 
         boolean b = gagne(p);
@@ -310,5 +338,18 @@ public class GridGameScreen extends GameScreen {
         else if(canMove == false)
             return false;
         return true;
+    }
+
+    private class ButtonRestart implements IExecutor{
+        public void execute(){
+            nbCoups = 0;
+            // TODO: reset everything
+        }
+    }
+
+    private class ButtonSolution implements IExecutor{
+        public void execute(){
+            // TODO: find solution
+        }
     }
 }

@@ -1,6 +1,7 @@
 package istia.ei4.ProjetISTIA;
 
 import android.util.SparseArray;
+import android.widget.Toast;
 
 /**
  * Created by Pierre on 04/02/2015.
@@ -11,6 +12,7 @@ public class GameManager {
     private InputManager inputManager;
     private RenderManager renderManager;
     private int sWidth, sHeight;
+    private MainActivity activity;
 
     /*
      * Constructeur de la classe GameManager.
@@ -19,12 +21,13 @@ public class GameManager {
      * @param Largeur de l'écran.
      * @param Hauteur de l'écran.
      */
-    public GameManager(InputManager inputManager, RenderManager renderManager, int sWidth, int sHeight){
+    public GameManager(InputManager inputManager, RenderManager renderManager, int sWidth, int sHeight, MainActivity activity){
         this.inputManager = inputManager;
         this.renderManager = renderManager;
         this.sWidth = sWidth;
         this.sHeight = sHeight;
         this.screens = new SparseArray<GameScreen>();
+        this.activity = activity;
         //list of all screens
         this.screens.append(0, new MainMenuGameScreen(this));
         this.screens.append(1, new GameOptionsGameScreen(this));
@@ -35,6 +38,14 @@ public class GameManager {
 
         //end of list of all screens
         this.currentScreen = this.screens.get(0);
+    }
+
+    public void requestEnd(){
+        this.activity.closeApp();
+    }
+
+    public void requestToast(CharSequence str){
+        this.activity.doToast(str);
     }
 
     public SparseArray<GameScreen> getScreens(){

@@ -11,8 +11,12 @@ public class MainMenuGameScreen extends GameScreen {
         super(gameManager);
     }
 
+    private long prevBack;
+
     @Override
     public void create() {
+        this.prevBack = System.currentTimeMillis();
+
         int ws2 = this.gameManager.getScreenWidth()/2;
 
         int hs2 = this.gameManager.getScreenHeight()/2;
@@ -26,5 +30,19 @@ public class MainMenuGameScreen extends GameScreen {
         renderManager.setColor(Color.WHITE);
         renderManager.paintScreen();
         super.draw(renderManager);
+    }
+
+    @Override
+    public void update(GameManager gameManager) {
+        super.update(gameManager);
+        if(gameManager.getInputManager().eventHasOccurred() && gameManager.getInputManager().backOccurred()){
+            long dt = System.currentTimeMillis() - this.prevBack;
+            this.prevBack = System.currentTimeMillis();
+            if(dt>500 && dt<3000){
+                gameManager.requestEnd();
+            }else{
+                gameManager.requestToast("Press again to quit.");
+            }
+        }
     }
 }

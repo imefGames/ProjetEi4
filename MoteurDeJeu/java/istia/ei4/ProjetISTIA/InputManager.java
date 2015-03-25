@@ -5,7 +5,7 @@ package istia.ei4.ProjetISTIA;
  */
 public class InputManager {
 
-    private boolean up, move, down, eventOccurred;
+    private boolean up, move, down, back, eventOccurred;
     private float touchX, touchY, prevTouchX, prevTouchY;
 
     /*
@@ -15,6 +15,7 @@ public class InputManager {
         this.up = false;
         this.down = false;
         this.move = false;
+        this.back = false;
         this.eventOccurred = false;
         this.touchX = 0;
         this.touchY = 0;
@@ -68,6 +69,14 @@ public class InputManager {
     }
 
     /*
+     * Enclenche un événement lorsque qu'il y a un appui sur la touche retour.
+     */
+    public void startBack(){
+        this.eventOccurred = true;
+        this.back = true;
+    }
+
+    /*
      * Réinitialise tous les événements.
      */
     public void resetEvents(){
@@ -75,6 +84,7 @@ public class InputManager {
         this.up = false;
         this.down = false;
         this.move = false;
+        this.back = false;
     }
 
     /*
@@ -139,5 +149,13 @@ public class InputManager {
      */
     public boolean upOccurred(){
         return this.up;
+    }
+
+    /*
+     * Retourne vrai si un événement d'appui sur la touche retour a eu lieu.
+     * @return Vrai si l'énénement s'est produit
+     */
+    public boolean backOccurred(){
+        return this.back;
     }
 }

@@ -42,13 +42,10 @@ public class GamePiece implements IGameObject {
 
     public void setyObjective(int yObjective) {
         this.yObjective = yObjective;
-//        this.y = this.yObjective; //Todo : enlever et mettre une animation
     }
 
     public void setxObjective(int xObjective) {
         this.xObjective = xObjective;
-
-//        this.x = this.xObjective; //Todo : enlever et mettre une animation
     }
     public int getY() {
         return y;
@@ -66,7 +63,6 @@ public class GamePiece implements IGameObject {
     }
 
     public void setGridDimensions(int xGrid, int yGrid, float cellSize){
-        // TODO: modifier les dimensions de la grille & le rayon du pion.
         this.xGrid = xGrid;
         this.yGrid = yGrid;
         this.widthCell = this.heightCell = cellSize;
@@ -114,10 +110,7 @@ public class GamePiece implements IGameObject {
                 }
             }
         }else{ //sinon (si le pion doit bouger),
-            //todo: bouger le pion
-
             inMouvement = true;
-
 
             if(this.x < this.xObjective)
                 deltaX +=1;

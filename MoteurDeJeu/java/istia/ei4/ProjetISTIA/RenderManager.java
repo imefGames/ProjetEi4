@@ -157,4 +157,12 @@ public class RenderManager {
     {
         return resources;
     }
+
+    public void drawText(int x, int y, String str){
+        this.target.drawText(str, x, y, this.brush);
+    }
+
+    public void setTextSize(int s){
+        this.brush.setTextSize(s);
+    }
 }

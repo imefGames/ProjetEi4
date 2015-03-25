@@ -51,7 +51,7 @@ public abstract class GameButton implements IGameObject {
                 this.btDown = (x > this.x  && x < this.x+this.w && y > this.y  && y < this.y+this.h);
             }
             if(inputManager.moveOccurred()){
-                this.btDown = (x > this.x  && x < this.x+this.w && y > this.y  && y < this.y+this.h);
+                this.btDown = this.btDown & (x > this.x  && x < this.x+this.w && y > this.y  && y < this.y+this.h);
             }
             if(inputManager.upOccurred()){
                 if(this.btDown){

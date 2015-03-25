@@ -6,7 +6,6 @@ package istia.ei4.ProjetISTIA.solver;
  */
 public class Solver extends Thread {
 
-    private boolean problemSolved               = false;
     private SolverStatus solverStatus           = SolverStatus.idle;
 
     public Solver(){
