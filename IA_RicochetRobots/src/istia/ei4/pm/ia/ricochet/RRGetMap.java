@@ -97,8 +97,8 @@ public class RRGetMap {
       }
     }
     
-    System.out.println("Cible y :");
-    System.out.println(cible.getType());
+    //System.out.println("Cible y :");
+    //System.out.println(cible.getType());
     currentWorld.setObjective(cible.getX(), cible.getY(), colors.get(cible.getType()));
     
     RRPiece[] mainLA, secLA;

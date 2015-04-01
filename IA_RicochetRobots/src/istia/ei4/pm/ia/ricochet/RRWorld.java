@@ -185,7 +185,6 @@ public class RRWorld extends AWorld {
 
     while(!isFinished)
     {
-       // System.out.println("Number :"+number);
         
         for(i = 0; i < 16; i++)
         {

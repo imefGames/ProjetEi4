@@ -21,7 +21,7 @@ public abstract class SolverBFS {
     
     long t0 = System.currentTimeMillis();
     while(currentDepth < this.maxDepth){
-      System.out.println(currentDepth + " -> " + nextLayer.size() + " -> " + (System.currentTimeMillis()-t0));
+      //System.out.println(currentDepth + " -> " + nextLayer.size() + " -> " + (System.currentTimeMillis()-t0));
       currentDepth++;
       ArrayList<AGameState> currentLayer = (ArrayList<AGameState>)(nextLayer.clone());
       nextLayer.clear();
@@ -37,7 +37,7 @@ public abstract class SolverBFS {
               solution.insertMove(upState.getPreviousMove());
               upState = upState.getParentState();
             }
-            System.out.println("----\n" + (System.currentTimeMillis()-t0) + "\n----");
+            //System.out.println("----\n" + (System.currentTimeMillis()-t0) + "\n----");
             return solution;
           }
           //check if hash already exists

@@ -11,21 +11,6 @@ public class MainIA {
 
 	public static void main(String[] args) {
     
-    /*RRGameState baseState = new RRGameState(null, null);
-    baseState.setDepth(1);
-    
-    RRPiece[] mainL = new RRPiece[]{
-      new RRPiece(1, 1, 1, 0)};
-    RRPiece[] secL = new RRPiece[]{
-      new RRPiece(9, 1, 2, 1),
-      new RRPiece(9, 2, 3, 2),
-      new RRPiece(9, 3, 4, 3)};
-    baseState.setPieces(mainL, secL);
-    
-    RRWorld world = new RRWorld();
-    world.init();
-    world.setObjective(12, 0, 1);*/
-    
     RRWorld world = null;
     String text = null;
     RRGameState baseState = new RRGameState(null, null);
@@ -34,7 +19,7 @@ public class MainIA {
     ArrayList<GridElement> elements = MapObjects.extractDataFromString(text);
     world = RRGetMap.createWorld(elements, baseState);
     
-    world.show(baseState);
+    //world.show(baseState);
     
     RREndCondition endCondition = new RREndCondition();
     world.precomputeGrid();
