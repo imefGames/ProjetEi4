@@ -30,12 +30,11 @@ public class MainIA {
     String text = null;
     RRGameState baseState = new RRGameState(null, null);
     FileReadWrite myFile = new FileReadWrite();
-    text = myFile.read("generatedMap_152.txt");
+    text = myFile.read("generatedMap_155.txt");
     ArrayList<GridElement> elements = MapObjects.extractDataFromString(text);
     world = RRGetMap.createWorld(elements, baseState);
     
     world.show(baseState);
-    
     
     RREndCondition endCondition = new RREndCondition();
     world.precomputeGrid(baseState);

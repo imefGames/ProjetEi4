@@ -82,7 +82,7 @@ public class RRGetMap {
         {
           for(GridElement robot : robots)
           {
-            if(robot.getType().equals(cible.getType()))
+            if(robot.getType().charAt(1) == cible.getType().charAt(1))
             {
               mainL.add(new RRPiece(robot.getX(), robot.getY(), colors.get(robot.getType()), cpt));
               cpt++;
