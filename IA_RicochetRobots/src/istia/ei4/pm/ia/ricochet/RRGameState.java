@@ -15,7 +15,7 @@ public class RRGameState extends AGameState {
   public RRGameState(AGameState parentState, IGameMove previousMove){
     super(parentState, previousMove);
     if(parentState != null){
-      this.allPieces = new ArrayList<>();
+      this.allPieces = new RRPiece[4];
       this.mainPieces = new RRPiece[((RRGameState)parentState).mainPieces.length];
       this.secondaryPieces = new RRPiece[((RRGameState)parentState).secondaryPieces.length];
       for(int i=0; i<((RRGameState)parentState).mainPieces.length; i++){
@@ -24,15 +24,29 @@ public class RRGameState extends AGameState {
       for(int i=0; i<((RRGameState)parentState).secondaryPieces.length; i++){
         this.secondaryPieces[i] = new RRPiece(((RRGameState)parentState).secondaryPieces[i]);
       }
-      this.allPieces.addAll(Arrays.asList(mainPieces));
-      this.allPieces.addAll(Arrays.asList(secondaryPieces));
+      int nP = 0, i;
+      for(i = 0; i<mainPieces.length; i++){
+        allPieces[nP] = mainPieces[i];
+        nP++;
+      }
+      for(i = 0; i<secondaryPieces.length; i++){
+        allPieces[nP] = secondaryPieces[i];
+        nP++;
+      }
     }
   }
   
   public void setPieces(RRPiece[] mainPieces, RRPiece[] secondaryPieces){
-    this.allPieces = new ArrayList<>();
-    this.allPieces.addAll(Arrays.asList(mainPieces));
-    this.allPieces.addAll(Arrays.asList(secondaryPieces));
+    this.allPieces = new RRPiece[4];
+      int nP = 0, i;
+      for(i = 0; i<mainPieces.length; i++){
+        allPieces[nP] = mainPieces[i];
+        nP++;
+      }
+      for(i = 0; i<secondaryPieces.length; i++){
+        allPieces[nP] = secondaryPieces[i];
+        nP++;
+      }
     this.mainPieces = mainPieces;
     this.secondaryPieces = secondaryPieces;
   }
@@ -103,7 +117,7 @@ public class RRGameState extends AGameState {
     return ret;
   }
   
-  public ArrayList<RRPiece> getPieces(){
+  public RRPiece[] getPieces(){
     return this.allPieces;
   }
   
@@ -116,18 +130,19 @@ public class RRGameState extends AGameState {
     String str = "";
     str += this.hashCode();
     str += "\nMain Piece:\n";
-    for(RRPiece p : this.mainPieces){
-      str += String.format("%d -> x:%d, y:%d, color:%d\n", p.hashCode(), p.getX(), p.getY(), p.getColor());
+    int i;
+    for(i = 0; i<allPieces.length; i++){
+      str += String.format("%d -> x:%d, y:%d, color:%d\n", allPieces[i].hashCode(), allPieces[i].getX(), allPieces[i].getY(), allPieces[i].getColor());
     }
     str += "Secondary Pieces:\n";
-    for(RRPiece p : this.secondaryPieces){
-      str += String.format("%d -> x:%d, y:%d, color:%d\n", p.hashCode(), p.getX(), p.getY(), p.getColor());
+    for(i = 0; i<allPieces.length; i++){
+      str += String.format("%d -> x:%d, y:%d, color:%d\n", allPieces[i].hashCode(), allPieces[i].getX(), allPieces[i].getY(), allPieces[i].getColor());
     }
     
     return str;
   }
   
-  private ArrayList<RRPiece> allPieces;
+  private RRPiece[] allPieces;
   private RRPiece[] secondaryPieces;
   private RRPiece[] mainPieces;
   
