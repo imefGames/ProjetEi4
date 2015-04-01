@@ -35,6 +35,26 @@ public class RRWorld extends AWorld {
     this.grid[9][8].setWall(ERRGameMove.LEFT, false);
   }
   
+  public void setVerticalWall(int x, int y){
+    if(y < 16)
+    {
+      if(x < 16)
+        this.grid[x][y].setWall(ERRGameMove.LEFT, false);
+      if((x-1)>0)
+        this.grid[x-1][y].setWall(ERRGameMove.RIGHT, false);
+    }
+  }
+  
+  public void setHorizontalWall(int x, int y){
+    if(x < 16)
+    {
+      if(y < 16)
+        this.grid[x][y].setWall(ERRGameMove.UP, false);
+      if((y-1)>0)
+        this.grid[x][y-1].setWall(ERRGameMove.DOWN, false);
+    }
+  }
+  
   public void setObjective(int x, int y, int color){
     this.xObj = x;
     this.yObj = y;
@@ -136,6 +156,11 @@ public class RRWorld extends AWorld {
       System.out.print('\n');
     }
     
+  }
+  
+  public void precomputeGrid(RRGameState state){
+    grid[xObj][yObj].setPrecomutedNumber(0);
+    //TODO
   }
   
   private RRGridCell[][] grid;

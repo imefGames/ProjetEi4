@@ -12,8 +12,10 @@ public class RREndCondition implements IEndCondition{
 
   @Override
   public boolean checkEnd(AWorld world, AGameState state) {
-    if(((RRWorld)world).isOnObjective(((RRGameState)state).getMainPiece())){
-      return true;
+    for(RRPiece p :((RRGameState)state).getMainPieces()){
+      if(((RRWorld)world).isOnObjective(p)){
+        return true;
+      }
     }
     return false;
   }

@@ -12,6 +12,9 @@ public abstract class AGameState {
     this.derivedStates = new ArrayList<>();
     this.parentState = parentState;
     this.previousMove = previousMove;
+    if(parentState != null){
+      this.depth = parentState.depth+1;
+    }
   }
   
   public abstract ArrayList<AGameState> computeDerivedStates(AWorld world);
@@ -25,8 +28,17 @@ public abstract class AGameState {
     return this.previousMove;
   }
   
+  public int getDepth(){
+    return this.depth;
+  }
+  
+  public void setDepth(int depth){
+    this.depth = depth;
+  }
+  
   protected ArrayList<AGameState> derivedStates;
   protected AGameState parentState;
   protected IGameMove previousMove;
+  protected int depth=1;
   
 }
