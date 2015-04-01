@@ -36,10 +36,10 @@ public class RRGetMap {
     colors.put("rb", 2);
     colors.put("rv", 3);
     colors.put("rj", 4);
-    colors.put("cr", 5);
-    colors.put("cb", 6);
-    colors.put("cv", 7);
-    colors.put("cj", 8);
+    colors.put("cr", 1);
+    colors.put("cb", 2);
+    colors.put("cv", 3);
+    colors.put("cj", 4);
     colors.put("cm", 0);
     
     
