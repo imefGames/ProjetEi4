@@ -158,9 +158,118 @@ public class RRWorld extends AWorld {
     
   }
   
-  public void precomputeGrid(RRGameState state){
+  public void precomputeGrid(){
+    
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    
+    int number = 0;
+    Boolean isFinished = false;
+    
+    for(i = 0; i < 16; i++)
+    {
+        for(j = 0; j < 16; j++)
+        {
+            grid[i][j].setPrecomutedNumber(-1);
+        }
+    } 
+      
     grid[xObj][yObj].setPrecomutedNumber(0);
-    //TODO
+    
+    grid[7][7].setPrecomutedNumber(10000);
+    grid[7][8].setPrecomutedNumber(10000);
+    grid[8][7].setPrecomutedNumber(10000);
+    grid[8][8].setPrecomutedNumber(10000);
+                    
+
+    while(!isFinished)
+    {
+       // System.out.println("Number :"+number);
+        
+        for(i = 0; i < 16; i++)
+        {
+            for(j = 0; j < 16; j++)
+            {
+                if(grid[i][j].getPrecomutedNumber() == number)
+                {
+                    Boolean stop = false;
+                    k = i;
+                    while(k > 0 && !stop)
+                    {
+                        if((grid[k][j].getWall(ERRGameMove.LEFT)) && grid[k-1][j].getPrecomutedNumber() == -1)
+                        {
+                            grid[k-1][j].setPrecomutedNumber(number+1);
+                        }
+                        else
+                        {
+                            stop = true;
+                        }
+                        k--;
+                    }
+                    
+                    stop = false;
+                    k = i;
+                    while(k < 15 && !stop)
+                    {
+                        if((grid[k][j].getWall(ERRGameMove.RIGHT)) && grid[k+1][j].getPrecomutedNumber() == -1)
+                        {
+                            grid[k+1][j].setPrecomutedNumber(number+1);
+                        }
+                        else
+                        {
+                            stop = true;
+                        }
+                        k++;
+                    }
+                    stop = false;
+                    k = j;
+                    while(k > 0 && !stop)
+                    {
+                        if((grid[i][k].getWall(ERRGameMove.UP)) && grid[i][k-1].getPrecomutedNumber() == -1)
+                        {
+                            grid[i][k-1].setPrecomutedNumber(number+1);
+                        }
+                        else
+                        {
+                            stop = true;
+                        }
+                        k--;
+                    }
+                    
+                    stop = false;
+                    k = j;
+                    while(k < 15 && !stop)
+                    {
+                        if((grid[i][k].getWall(ERRGameMove.DOWN)) && grid[i][k+1].getPrecomutedNumber() == -1)
+                        {
+                            grid[i][k+1].setPrecomutedNumber(number+1);
+                        }
+                        else
+                        {
+                            stop = true;
+                        }
+                        k++;
+                    }
+                }
+            }
+        }
+        number++;
+        isFinished = checkIfFinished();
+    }
+  }
+  
+  private Boolean checkIfFinished()
+  {
+    for(int i = 0; i < 16; i++)
+    {
+        for(int j = 0; j < 16; j++)
+        {
+            if(grid[i][j].getPrecomutedNumber() == -1)
+                return false;
+        }
+    }
+    return true;
   }
   
   public int scoreAtPosition(RRPiece piece){

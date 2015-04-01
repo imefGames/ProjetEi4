@@ -37,7 +37,7 @@ public class MainIA {
     world.show(baseState);
     
     RREndCondition endCondition = new RREndCondition();
-    world.precomputeGrid(baseState);
+    world.precomputeGrid();
     
 		RRSolver solver = new RRSolver(10, world, baseState, endCondition);
 		
