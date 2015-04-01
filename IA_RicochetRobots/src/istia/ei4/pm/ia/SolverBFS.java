@@ -42,8 +42,8 @@ public abstract class SolverBFS {
           }
           //check if hash already exists
           boolean hashFound = this.additionnalRemovalCriteria(s);
-          Long stateHash = s.computeHash(world);
           if(!hashFound){
+            Long stateHash = s.computeHash(world);
             for(Long h : hashes){
               hashFound |= stateHash.equals(h);
             }

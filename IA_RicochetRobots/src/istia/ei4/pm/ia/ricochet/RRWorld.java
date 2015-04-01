@@ -164,7 +164,7 @@ public class RRWorld extends AWorld {
   }
   
   public int scoreAtPosition(RRPiece piece){
-    return grid[piece.getX()][piece.getY()].getPrecomputatedNumber();
+    return grid[piece.getX()][piece.getY()].getPrecomutedNumber();
   }
   
   private RRGridCell[][] grid;

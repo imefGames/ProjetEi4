@@ -8,6 +8,7 @@ public class RRGridCell {
   
   public RRGridCell(){
     this.directions = 15;
+    this.precomputedNumber = 0;
   }
   
   public void setWall(ERRGameMove move, boolean state){
@@ -20,10 +21,6 @@ public class RRGridCell {
   
   public boolean getWall(ERRGameMove move){
     return (this.directions & move.getDirection()) != 0;
-  }
-  
-  public int getPrecomputatedNumber(){
-    return this.precomputedNumber;
   }
   
   public boolean doMove(RRPiece pos, ERRGameMove move){
@@ -59,7 +56,7 @@ public class RRGridCell {
     return (this.directions & 16) != 0;
   }
   
-  public int setPrecomutedNumber(){
+  public int getPrecomutedNumber(){
     return this.precomputedNumber;
   }
   
