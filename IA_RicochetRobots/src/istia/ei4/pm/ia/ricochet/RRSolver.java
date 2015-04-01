@@ -19,9 +19,11 @@ public class RRSolver extends SolverBFS {
     RRWorld w = (RRWorld)world;
     RRGameState s = (RRGameState)state;
     for(RRPiece p : s.getMainPieces()){
-      
+      if(w.scoreAtPosition(p) + this.currentDepth <= this.maxDepth){
+        return true;
+      }
     }
-    return false;
+    return true;
   }
   
 }

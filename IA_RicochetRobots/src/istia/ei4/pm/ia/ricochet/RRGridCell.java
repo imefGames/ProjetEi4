@@ -22,6 +22,10 @@ public class RRGridCell {
     return (this.directions & move.getDirection()) != 0;
   }
   
+  public int getPrecomputatedNumber(){
+    return this.precomputedNumber;
+  }
+  
   public boolean doMove(RRPiece pos, ERRGameMove move){
     boolean didMove = this.getWall(move);
     if(didMove){

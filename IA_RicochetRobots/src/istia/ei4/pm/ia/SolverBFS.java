@@ -45,14 +45,12 @@ public abstract class SolverBFS {
           Long stateHash = s.computeHash(world);
           if(!hashFound){
             for(Long h : hashes){
-              if(stateHash.equals(h)){
-                hashFound = true;
-              }
+              hashFound |= stateHash.equals(h);
             }
-          }
-          if(!hashFound){
-            hashes.add(stateHash);
-            nextLayer.add(s);
+            if(!hashFound){
+              hashes.add(stateHash);
+              nextLayer.add(s);
+            }
           }
         }
         ///
@@ -63,7 +61,7 @@ public abstract class SolverBFS {
   
   public abstract boolean additionnalRemovalCriteria(AGameState state);
   
-  private final int maxDepth;
+  protected final int maxDepth;
   
   protected int currentDepth;
   protected AWorld world;

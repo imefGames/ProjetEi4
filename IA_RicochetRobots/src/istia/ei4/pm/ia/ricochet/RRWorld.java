@@ -163,6 +163,10 @@ public class RRWorld extends AWorld {
     //TODO
   }
   
+  public int scoreAtPosition(RRPiece piece){
+    return grid[piece.getX()][piece.getY()].getPrecomputatedNumber();
+  }
+  
   private RRGridCell[][] grid;
   private int xObj = 0, yObj = 0, objColor = 0;
   
