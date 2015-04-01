@@ -33,13 +33,15 @@ public class MainIA {
     text = myFile.read("generatedMap_104.txt");
     ArrayList<GridElement> elements = MapObjects.extractDataFromString(text);
     world = RRGetMap.createWorld(elements, baseState);
-    
+    world.precomputeGrid();
     world.show(baseState);
+    
+    
     
     
     RREndCondition endCondition = new RREndCondition();
     
-		RRSolver solver = new RRSolver(10, world, baseState, endCondition);
+		RRSolver solver = new RRSolver(1, world, baseState, endCondition);
 		
 		GameSolution solution = solver.solve();
     
@@ -50,5 +52,8 @@ public class MainIA {
         System.out.println(m);
       }
     }
+    
+    
+    
 	}
 }

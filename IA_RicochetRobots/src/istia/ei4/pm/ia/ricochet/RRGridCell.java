@@ -55,7 +55,7 @@ public class RRGridCell {
     return (this.directions & 16) != 0;
   }
   
-  public int setPrecomutedNumber(){
+  public int getPrecomutedNumber(){
     return this.precomputedNumber;
   }
   
