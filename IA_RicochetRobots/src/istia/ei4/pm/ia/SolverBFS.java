@@ -12,7 +12,7 @@ public abstract class SolverBFS {
 	}
 	
 	public GameSolution solve(){
-    ArrayList<Long> hashes = new ArrayList<>();
+    ArrayList<Long> hashes = new ArrayList<>(1000000);
     hashes.add(this.baseState.computeHash(world));
     currentDepth = 0;
     
@@ -21,7 +21,7 @@ public abstract class SolverBFS {
     
     long t0 = System.currentTimeMillis();
     while(currentDepth < this.maxDepth){
-      //System.out.println(currentDepth + " -> " + nextLayer.size() + " -> " + (System.currentTimeMillis()-t0));
+      System.out.println(currentDepth + " -> " + nextLayer.size() + " -> " + (System.currentTimeMillis()-t0));
       currentDepth++;
       ArrayList<AGameState> currentLayer = (ArrayList<AGameState>)(nextLayer.clone());
       nextLayer.clear();
@@ -43,9 +43,9 @@ public abstract class SolverBFS {
           //check if hash already exists
           boolean hashFound = this.additionnalRemovalCriteria(s);
           if(!hashFound){
-            Long stateHash = s.computeHash(world);
-            for(Long h : hashes){
-              hashFound |= stateHash.equals(h);
+            long stateHash = s.computeHash(world);
+            for(long h : hashes){
+              hashFound |= stateHash == h;
             }
             if(!hashFound){
               hashes.add(stateHash);
