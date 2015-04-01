@@ -12,8 +12,9 @@ public abstract class SolverBFS {
 	}
 	
 	public GameSolution solve(){
-    ArrayList<Long> hashes = new ArrayList<>(1000000);
-    hashes.add(this.baseState.computeHash(world));
+    int nHashes = 1;
+    long[] hashes = new long[1000000];
+    hashes[0] = this.baseState.computeHash(world);
     currentDepth = 0;
     
     ArrayList<AGameState> nextLayer = new ArrayList<>();
@@ -44,11 +45,12 @@ public abstract class SolverBFS {
           boolean hashFound = this.additionnalRemovalCriteria(s);
           if(!hashFound){
             long stateHash = s.computeHash(world);
-            for(long h : hashes){
-              hashFound |= stateHash == h;
+            for(int i=0; i<nHashes; i++){
+              hashFound |= stateHash == hashes[i];
             }
             if(!hashFound){
-              hashes.add(stateHash);
+              hashes[nHashes] = stateHash;
+              nHashes++;
               nextLayer.add(s);
             }
           }
