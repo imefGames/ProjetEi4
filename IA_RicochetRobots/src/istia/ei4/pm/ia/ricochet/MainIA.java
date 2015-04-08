@@ -15,24 +15,25 @@ import java.util.List;
 public class MainIA {
 
     public static void main(String[] args) {
-      exec();
+      FileReadWrite myFile = new FileReadWrite();
+      String text = myFile.read("generatedMap_132.txt");
+      ArrayList<GridElement> elements = MapObjects.extractDataFromString(text);
+      
+      execDD(elements);
     }
     
-    static void exec(){
+    static void exec(ArrayList<GridElement> elements){
         RRGameState baseState = new RRGameState(null, null);
-        FileReadWrite myFile = new FileReadWrite();
-        String text = myFile.read("generatedMap_154.txt");
-        ArrayList<GridElement> elements = MapObjects.extractDataFromString(text);
         RRWorld world = RRGetMap.createWorld(elements, baseState);
 
-        world.show(baseState);
+        //world.show(baseState);
 
         RREndCondition endCondition = new RREndCondition();
         world.precomputeGrid();
 
-                    RRSolver solver = new RRSolver(10, world, baseState, endCondition);
+        RRSolver solver = new RRSolver(10, world, baseState, endCondition);
 
-                    GameSolution solution = solver.solve();
+        GameSolution solution = solver.solve();
 
         if(solution == null){
           System.out.println("No Solution!");
@@ -43,11 +44,7 @@ public class MainIA {
         }
     }
     
-    static void execDD(){
-      FileReadWrite myFile = new FileReadWrite();
-      String text = myFile.read("generatedMap_154.txt");
-      ArrayList<GridElement> elements = MapObjects.extractDataFromString(text);
-
+    static void execDD(ArrayList<GridElement> elements){
       Board b = RRGetMap.createWorld(elements);
       System.out.println("**********");
       System.out.println(b.toString());

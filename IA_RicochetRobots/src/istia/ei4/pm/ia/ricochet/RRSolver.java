@@ -17,9 +17,13 @@ public class RRSolver extends SolverBFS {
   @Override
   public boolean additionnalRemovalCriteria(AGameState state) {
     RRWorld w = (RRWorld)world;
-    RRGameState s = (RRGameState)state;
-    for(RRPiece p : s.getMainPieces()){
-      if(w.scoreAtPosition(p) + this.currentDepth <= this.maxDepth){
+    RRPiece[] s = ((RRGameState)state).getMainPieces();
+    RRPiece[] ps = ((RRGameState)(state.getParentState())).getMainPieces();
+    for(int i=0; i<s.length; i++){
+      if(w.scoreAtPosition(s[i]) > w.scoreAtPosition(ps[i])){
+        return true;
+      }//*/
+      if(w.scoreAtPosition(s[i]) + this.currentDepth <= this.maxDepth){
         return false;
       }
     }
