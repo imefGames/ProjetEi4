@@ -1,7 +1,5 @@
 package istia.ei4.pm.ia.ricochet;
 
-import java.util.Comparator;
-
 /**
  *
  * @author Pierre Michel

@@ -6,6 +6,8 @@ import driftingdroids.model.Solver;
 import istia.ei4.ProjetISTIA.FileReadWrite;
 import istia.ei4.ProjetISTIA.GridElement;
 import istia.ei4.ProjetISTIA.MapObjects;
+import istia.ei4.pm.ia.GameSolution;
+import istia.ei4.pm.ia.IGameMove;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,16 +15,17 @@ import java.util.List;
 public class MainIA {
 
     public static void main(String[] args) {
+      exec();
+    }
     
-        /*RRWorld world = null;
-        String text = null;
+    static void exec(){
         RRGameState baseState = new RRGameState(null, null);
         FileReadWrite myFile = new FileReadWrite();
-        text = myFile.read("generatedMap_154.txt");
+        String text = myFile.read("generatedMap_154.txt");
         ArrayList<GridElement> elements = MapObjects.extractDataFromString(text);
-        world = RRGetMap.createWorld(elements, baseState);
+        RRWorld world = RRGetMap.createWorld(elements, baseState);
 
-        //world.show(baseState);
+        world.show(baseState);
 
         RREndCondition endCondition = new RREndCondition();
         world.precomputeGrid();
@@ -37,26 +40,28 @@ public class MainIA {
           for(IGameMove m : solution.getMoves()){
             System.out.println(m);
           }
-        }//*/
-        
-        FileReadWrite myFile = new FileReadWrite();
-        String text = myFile.read("generatedMap_154.txt");
-        ArrayList<GridElement> elements = MapObjects.extractDataFromString(text);
-        
-        Board b = RRGetMap.createWorld(elements);
-        System.out.println("**********");
-        System.out.println(b.toString());
-        System.out.println("**********");
-        
-        
-        Solver s = Solver.createInstance(b);
-        try{
-            List<Solution> sol = s.execute();
-            for(Solution solution : sol){
-                System.out.println(solution.toMovelistString());
-            }
-        }catch(InterruptedException e){
-            System.err.println(e.getMessage());
-        }//*/
+        }
+    }
+    
+    static void execDD(){
+      FileReadWrite myFile = new FileReadWrite();
+      String text = myFile.read("generatedMap_154.txt");
+      ArrayList<GridElement> elements = MapObjects.extractDataFromString(text);
+
+      Board b = RRGetMap.createWorld(elements);
+      System.out.println("**********");
+      System.out.println(b.toString());
+      System.out.println("**********");
+
+
+      Solver s = Solver.createInstance(b);
+      try{
+          List<Solution> sol = s.execute();
+          for(Solution solution : sol){
+              System.out.println(solution.toMovelistString());
+          }
+      }catch(InterruptedException e){
+          System.err.println(e.getMessage());
+      }
     }
 }
