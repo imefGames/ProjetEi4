@@ -19,7 +19,7 @@ public class MainIA {
       String text = myFile.read("generatedMap_132.txt");
       ArrayList<GridElement> elements = MapObjects.extractDataFromString(text);
       
-      execDD(elements);
+      exec(elements);
     }
     
     static void exec(ArrayList<GridElement> elements){
